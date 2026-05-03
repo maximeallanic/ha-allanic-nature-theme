@@ -3,8 +3,11 @@
 Thème Home Assistant pour la maison Allanic — palette nature sobre, optimisé affichage permanent sur tablettes Kindle Fire (mode wall display).
 
 Deux variants :
-- `allanic_nature` (dark, par défaut)
+- `allanic_nature_dark` (dark, par défaut)
 - `allanic_nature_light` (light, fallback jour)
+
+Switch automatique dark/light via `sun.sun` : voir [`docs/automation_dark_light_switch.yaml`](docs/automation_dark_light_switch.yaml).
+Snippets card-mod (Mushroom / Tile, layout portrait Kindle Fire) : voir [`docs/card_mod_snippets.yaml`](docs/card_mod_snippets.yaml).
 
 ## Installation via HACS
 
@@ -28,7 +31,7 @@ Si absent, l'ajouter une seule fois puis redémarrer HA.
 
 ### Activation
 
-Profil utilisateur → **Theme** → choisir `allanic_nature` ou `allanic_nature_light`.
+Profil utilisateur → **Theme** → choisir `allanic_nature_dark` ou `allanic_nature_light`.
 
 ## Mise à jour
 

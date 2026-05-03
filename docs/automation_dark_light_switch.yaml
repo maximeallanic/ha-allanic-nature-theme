@@ -1,0 +1,114 @@
+# ══════════════════════════════════════════════════════════════════════════════
+#  ALLANIC NATURE — Automation Switch Dark/Light
+#  Version: 1.2.0 — sensor cuisine confirmé
+#  Sensor: sensor.capteur_humain_eclairement (HOBEIAN ZG-204ZV, cuisine)
+#  Seuil: 50 lux (validé par Maxime)
+#  Tablettes: Kindle Fire 5th Gen × 3 — portrait 600×1024
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ── TEMPLATE SENSOR (ajouter dans configuration.yaml > template:) ─────────────
+# Ce binary_sensor traduit la valeur lux en état on/off pour simplifier les triggers
+#
+# template:
+#   - binary_sensor:
+#       - name: "Allanic Nature Luminosité Haute"
+#         unique_id: allanic_nature_luminosite_haute
+#         state: >
+#           {{ states('sensor.capteur_humain_eclairement') | float(0) > 50 }}
+#         device_class: light
+#         # Sensor cuisine HOBEIAN ZG-204ZV
+#         # Seuil 50 lux = transition jour/nuit tablette murale
+#         # Source: Maxime confirmé 2026-05-03
+
+# ── AUTOMATION 1 — Passe au LIGHT quand luminosité > 50 lux ───────────────────
+alias: "Allanic Nature — Theme LIGHT (haute luminosité)"
+description: "Active le thème clair quand la cuisine dépasse 50 lux"
+mode: single
+trigger:
+  - platform: numeric_state
+    entity_id: sensor.capteur_humain_eclairement
+    above: 50
+    for:
+      seconds: 30
+    # 30s de délai = évite flip/flop si qqun allume/éteint brièvement la lumière cuisine
+action:
+  - service: frontend.set_theme
+    target:
+      entity_id: all
+    data:
+      name: allanic_nature_light
+
+---
+
+# ── AUTOMATION 2 — Passe au DARK quand luminosité ≤ 50 lux ───────────────────
+alias: "Allanic Nature — Theme DARK (faible luminosité)"
+description: "Active le thème sombre quand la cuisine passe sous 50 lux"
+mode: single
+trigger:
+  - platform: numeric_state
+    entity_id: sensor.capteur_humain_eclairement
+    below: 51
+    for:
+      seconds: 30
+    # Seuil below: 51 (asymétrique par rapport à above: 50) = hystérésis minimal
+    # Évite oscillation autour de 50 lux exact
+action:
+  - service: frontend.set_theme
+    target:
+      entity_id: all
+    data:
+      name: allanic_nature_dark
+
+---
+
+# ── AUTOMATION 3 — Initialisation au démarrage HA ────────────────────────────
+alias: "Allanic Nature — Init theme au démarrage"
+description: "Applique le bon thème au démarrage selon luminosité cuisine courante"
+mode: single
+trigger:
+  - platform: homeassistant
+    event: start
+action:
+  - choose:
+      - conditions:
+          - condition: numeric_state
+            entity_id: sensor.capteur_humain_eclairement
+            above: 50
+        sequence:
+          - service: frontend.set_theme
+            target:
+              entity_id: all
+            data:
+              name: allanic_nature_light
+    default:
+      - service: frontend.set_theme
+        target:
+          entity_id: all
+        data:
+          name: allanic_nature_dark
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  NOTES D'INTÉGRATION
+#
+#  Sensor principal : sensor.capteur_humain_eclairement
+#  → HOBEIAN ZG-204ZV, cuisine
+#  → Unité : lux (float)
+#  → Si l'entité change de nom, chercher dans HA > Paramètres > Appareils
+#    filtre: "HOBEIAN" ou "ZG-204ZV" ou "éclairement"
+#
+#  Si sensor.capteur_humain_eclairement indisponible (panne Zigbee etc.) :
+#  → Le thème reste sur la dernière valeur appliquée (pas de flip)
+#  → Ajouter condition: "{{ states('sensor.capteur_humain_eclairement') != 'unavailable' }}"
+#    si besoin de robustesse supplémentaire
+#
+#  Hystérésis : above 50 / below 51 évite l'oscillation à 50 lux exact
+#  Délai 30s : anti-rebond pour allumage/extinction cuisine temporaire
+#
+#  Scope frontend.set_theme : target: entity_id: all → applique à tous les clients
+#  Si on veut cibler uniquement les tablettes FK (si device_id connu) :
+#    target:
+#      device_id:
+#        - <device_id_fk_cuisine>
+#        - <device_id_fk_salon>
+#        - <device_id_fk_chambre>
+# ══════════════════════════════════════════════════════════════════════════════

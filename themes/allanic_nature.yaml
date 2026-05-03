@@ -1,69 +1,207 @@
-# Allanic Nature Theme — PLACEHOLDER
-# Le contenu final sera remplacé par le thème extrait par le persona designer
-# (task_19195). Ce placeholder existe pour valider la structure HACS.
-#
-# Deux variants : allanic_nature (dark) + allanic_nature_light (light).
-# Optimisé pour Kindle Fire en mode wall display (écran toujours allumé,
-# contraste élevé, palette sobre nature).
+# ══════════════════════════════════════════════════════════════════════════════
+#  ALLANIC NATURE — Thème Home Assistant
+#  Version: 1.1.0 (Kindle Fire 5th Gen optimisé)
+#  Auteur: Designer Bleuenn / Personas Studio
+#  DA: allanic.me — Teal profond #0D5D6D + nature organique
+#  Typo: Nunito Sans (Google Fonts, 1 seule famille)
+#  Cibles hardware: Kindle Fire 5th Gen — 1024×600 / WebView ~Chromium 70-80
+#  ──────────────────────────────────────────────────────────────────────────
+#  ⚠️ OPTIMISATIONS KINDLE FIRE
+#  - Pas de backdrop-filter, pas de blur, pas de gradients animés
+#  - CSS conservateur : pas de :has(), pas de color-mix(), pas de @property
+#  - Fonds SOLIDES (pas de rgba sur backgrounds principaux → évite compositing)
+#  - Ombres : 1 couche max, légères
+#  - Bordures cartes : 1.5px (hairlines 1px invisibles à 171ppi)
+#  - Animations : uniquement via HA, pas CSS media query pour dark/light switch
+#  - Nunito Sans chargé via resources (1 seule font)
+# ══════════════════════════════════════════════════════════════════════════════
 
-allanic_nature:
-  # === Couleurs principales (placeholder) ===
-  primary-color: "#4a7c59"
-  accent-color: "#d4a373"
-  primary-background-color: "#1a1f1c"
-  secondary-background-color: "#222926"
-  card-background-color: "#252b28"
-  primary-text-color: "#e8ebe6"
-  secondary-text-color: "#9fa8a3"
-  divider-color: "rgba(232, 235, 230, 0.08)"
+allanic_nature_dark:
+  # ── PALETTE ──
+  # Teal signature Allanic : #0D5D6D
+  # Cyan bio : #00B2C6
+  # Fond noir teinté : #0B1215
+  # Mood : forêt nocturne, bioluminescence sous-marine
+  # ─────────────────────────────────────────────────────────────────────────
+  # NOTA: Ce thème est appliqué via service call frontend.set_theme (HA automations)
+  # NE PAS reposer sur prefers-color-scheme CSS (non fiable sur WebView ancien)
 
-  # === Cartes ===
-  ha-card-background: "#252b28"
+  # ── COULEURS GLOBALES ──────────────────────────────────────
+  primary-color: "#00B2C6"
+  accent-color: "#0D5D6D"
+
+  # ── FONDS (solides, pas de rgba — évite compositing sur GPU faible) ────
+  primary-background-color: "#0B1215"
+  secondary-background-color: "#0D1618"
+  lovelace-background: "#0B1215"
+
+  # ── CARDS ──────────────────────────────────────────────────
+  # Fond solide (pas rgba — performance Kindle Fire)
+  card-background-color: "#131D1F"
+  paper-card-background-color: "#131D1F"
+  paper-listbox-background-color: "#131D1F"
+  ha-card-background: "#131D1F"
   ha-card-border-radius: "12px"
-  ha-card-box-shadow: "0 2px 8px rgba(0, 0, 0, 0.25)"
+  # 1.5px minimum (hairline 1px invisible sur écran 171ppi)
+  ha-card-border-width: "1.5px"
+  ha-card-border-color: "#1C3338"
+  # Ombre simple (1 couche, pas de double shadow — perf)
+  ha-card-box-shadow: "0 2px 8px rgba(0, 0, 0, 0.50)"
 
-  # === État ===
-  state-icon-color: "#d4a373"
-  state-icon-active-color: "#a3c585"
-  state-icon-unavailable-color: "#5a635e"
+  # ── HEADER ─────────────────────────────────────────────────
+  app-header-background-color: "#080F11"
+  app-header-text-color: "#D8EBEC"
+  app-header-selection-bar-color: "#00B2C6"
 
-  # === Sidebar ===
-  sidebar-background-color: "#1a1f1c"
-  sidebar-text-color: "#e8ebe6"
-  sidebar-selected-background-color: "#2c3530"
-  sidebar-selected-text-color: "#a3c585"
-  sidebar-icon-color: "#9fa8a3"
-  sidebar-selected-icon-color: "#a3c585"
+  # ── SIDEBAR ────────────────────────────────────────────────
+  sidebar-background-color: "#0A1315"
+  sidebar-text-color: "#7AABB0"
+  sidebar-selected-background-color: "#132528"
+  sidebar-selected-text-color: "#00B2C6"
+  sidebar-icon-color: "#4A8088"
+  sidebar-selected-icon-color: "#00B2C6"
 
-  # === App header ===
-  app-header-background-color: "#1a1f1c"
-  app-header-text-color: "#e8ebe6"
+  # ── TEXTE (contrastes renforcés pour 171ppi) ───────────────
+  primary-text-color: "#E8F4F5"
+  secondary-text-color: "#7AABB0"
+  disabled-text-color: "#2E4A4F"
+  text-primary-color: "#E8F4F5"
+  label-badge-text-color: "#E8F4F5"
+
+  # ── DIVIDERS ───────────────────────────────────────────────
+  # Couleur solide, pas rgba pour visibilité sur bas pixel density
+  divider-color: "#1C3338"
+  light-primary-color: "#1A3A3E"
+
+  # ── ICONS ──────────────────────────────────────────────────
+  state-icon-color: "#4A8088"
+  state-icon-active-color: "#00B2C6"
+  paper-item-icon-color: "#4A8088"
+  paper-item-icon-active-color: "#00B2C6"
+
+  # ── CONTRÔLES ──────────────────────────────────────────────
+  switch-checked-color: "#0D5D6D"
+  switch-unchecked-color: "#1A2E31"
+  switch-checked-button-color: "#00B2C6"
+  switch-checked-track-color: "#1A5560"
+  slider-color: "#0D5D6D"
+  paper-toggle-button-checked-button-color: "#00B2C6"
+  paper-toggle-button-checked-bar-color: "#1A5560"
+
+  # ── ÉTATS SÉMANTIQUES ──────────────────────────────────────
+  success-color: "#1B8A57"
+  warning-color: "#E89318"
+  error-color: "#D63C2B"
+  info-color: "#0D5D6D"
+
+  # ── BADGE ──────────────────────────────────────────────────
+  label-badge-background-color: "#0D5D6D"
+  label-badge-text-color: "#FFFFFF"
+  label-badge-border-color: "#00B2C6"
+
+  # ── INPUTS ─────────────────────────────────────────────────
+  input-fill-color: "#132025"
+  input-ink-color: "#E8F4F5"
+  input-label-ink-color: "#7AABB0"
+  input-dropdown-bg-color: "#131D1F"
+
+  # ── ENERGY ─────────────────────────────────────────────────
+  energy-grid-consumption-color: "#00B2C6"
+  energy-solar-color: "#E89318"
+  energy-battery-in-color: "#1B8A57"
+
+  # ── TYPO (1 famille max — Nunito Sans, fallback système) ───
+  primary-font-family: "'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+
+
+# ══════════════════════════════════════════════════════════════════════════════
 
 allanic_nature_light:
-  # === Variant light (placeholder) ===
-  primary-color: "#4a7c59"
-  accent-color: "#a05a2c"
-  primary-background-color: "#f5f1e8"
-  secondary-background-color: "#ebe6d8"
-  card-background-color: "#ffffff"
-  primary-text-color: "#1f2420"
-  secondary-text-color: "#5a635e"
-  divider-color: "rgba(31, 36, 32, 0.08)"
+  # ── PALETTE ──
+  # Teal signature Allanic : #0D5D6D
+  # Fond écru teinté : #EEF4F5
+  # Mood : clairière nordique, lumière filtrée
 
-  ha-card-background: "#ffffff"
+  # ── COULEURS GLOBALES ──────────────────────────────────────
+  primary-color: "#0D5D6D"
+  accent-color: "#107084"
+
+  # ── FONDS (solides) ────────────────────────────────────────
+  primary-background-color: "#EDF4F5"
+  secondary-background-color: "#DEE9EA"
+  lovelace-background: "#EDF4F5"
+
+  # ── CARDS ──────────────────────────────────────────────────
+  card-background-color: "#FFFFFF"
+  paper-card-background-color: "#FFFFFF"
+  paper-listbox-background-color: "#FFFFFF"
+  ha-card-background: "#FFFFFF"
   ha-card-border-radius: "12px"
-  ha-card-box-shadow: "0 2px 6px rgba(0, 0, 0, 0.08)"
+  ha-card-border-width: "1.5px"
+  ha-card-border-color: "#C8DDE0"
+  # Ombre simple
+  ha-card-box-shadow: "0 2px 6px rgba(13, 93, 109, 0.14)"
 
-  state-icon-color: "#a05a2c"
-  state-icon-active-color: "#4a7c59"
-  state-icon-unavailable-color: "#a8b0aa"
+  # ── HEADER ─────────────────────────────────────────────────
+  app-header-background-color: "#0D5D6D"
+  app-header-text-color: "#FFFFFF"
+  app-header-selection-bar-color: "#00B2C6"
 
-  sidebar-background-color: "#ebe6d8"
-  sidebar-text-color: "#1f2420"
-  sidebar-selected-background-color: "#dcd3bd"
-  sidebar-selected-text-color: "#4a7c59"
-  sidebar-icon-color: "#5a635e"
-  sidebar-selected-icon-color: "#4a7c59"
+  # ── SIDEBAR ────────────────────────────────────────────────
+  sidebar-background-color: "#E6F2F3"
+  sidebar-text-color: "#2C5F67"
+  sidebar-selected-background-color: "#C8DDE0"
+  sidebar-selected-text-color: "#0D5D6D"
+  sidebar-icon-color: "#4A8088"
+  sidebar-selected-icon-color: "#0D5D6D"
 
-  app-header-background-color: "#ebe6d8"
-  app-header-text-color: "#1f2420"
+  # ── TEXTE (contrastes renforcés) ───────────────────────────
+  primary-text-color: "#111E20"
+  secondary-text-color: "#2C5F67"
+  disabled-text-color: "#8AA8AC"
+  text-primary-color: "#111E20"
+  label-badge-text-color: "#FFFFFF"
+
+  # ── DIVIDERS (solide, visible) ─────────────────────────────
+  divider-color: "#B8D1D5"
+  light-primary-color: "#BDD4D8"
+
+  # ── ICONS ──────────────────────────────────────────────────
+  state-icon-color: "#4A8088"
+  state-icon-active-color: "#0D5D6D"
+  paper-item-icon-color: "#4A8088"
+  paper-item-icon-active-color: "#0D5D6D"
+
+  # ── CONTRÔLES ──────────────────────────────────────────────
+  switch-checked-color: "#0D5D6D"
+  switch-unchecked-color: "#A8C8CC"
+  switch-checked-button-color: "#0D5D6D"
+  switch-checked-track-color: "#5A9EA6"
+  slider-color: "#0D5D6D"
+  paper-toggle-button-checked-button-color: "#0D5D6D"
+  paper-toggle-button-checked-bar-color: "#5A9EA6"
+
+  # ── ÉTATS SÉMANTIQUES ──────────────────────────────────────
+  success-color: "#1B5E20"
+  warning-color: "#C25E00"
+  error-color: "#B71C1C"
+  info-color: "#0D5D6D"
+
+  # ── BADGE ──────────────────────────────────────────────────
+  label-badge-background-color: "#0D5D6D"
+  label-badge-text-color: "#FFFFFF"
+  label-badge-border-color: "#0D5D6D"
+
+  # ── INPUTS ─────────────────────────────────────────────────
+  input-fill-color: "#D8EAEC"
+  input-ink-color: "#111E20"
+  input-label-ink-color: "#2C5F67"
+  input-dropdown-bg-color: "#FFFFFF"
+
+  # ── ENERGY ─────────────────────────────────────────────────
+  energy-grid-consumption-color: "#0D5D6D"
+  energy-solar-color: "#C25E00"
+  energy-battery-in-color: "#1B5E20"
+
+  # ── TYPO ───────────────────────────────────────────────────
+  primary-font-family: "'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"

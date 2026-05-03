@@ -1,0 +1,207 @@
+# ══════════════════════════════════════════════════════════════════════════════
+#  ALLANIC NATURE — Card Style Overrides
+#  Version: 1.2.0 — Portrait 600×1024 (Kindle Fire 5th Gen)
+#  Via card-mod (HACS) — Mushroom + Tile cards
+#  ──────────────────────────────────────────────────────────────────────────
+#  ⚠️ CSS CONSERVATEUR pour WebView ~Chromium 70-80
+#  - Pas de :has(), container queries, color-mix()
+#  - Transitions : opacity + transform uniquement, ≤200ms
+#  - Pas de backdrop-filter, blur()
+#  - Scale actif retiré → laggy sur CPU 1.3GHz
+#  ──────────────────────────────────────────────────────────────────────────
+#  LAYOUT PORTRAIT 600×1024
+#  Largeur utile : 600 - (16+16) = 568px
+#  2 colonnes : (568 - 8) / 2 = 280px par colonne (gap 8px)
+#  Tap target : 280px largeur × 80-96px hauteur → OK ≥48px
+#  Header compact : 56px
+#  Zone cards : ~850px vertical = place pour 8 rangées de 96px
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ── MUSHROOM CARD — Style universel (portrait) ────────────────────────────────
+# À coller dans n'importe quelle mushroom-*-card :
+#
+# card_mod:
+#   style: |
+#     ha-card {
+#       border-radius: 12px !important;
+#       border: 1.5px solid var(--divider-color) !important;
+#       box-shadow: var(--ha-card-box-shadow) !important;
+#       min-height: 80px;   /* Portrait: cards plus hautes que larges */
+#       transition: opacity 0.15s ease;
+#     }
+#     ha-card:active {
+#       opacity: 0.85;
+#     }
+
+# ── MUSHROOM LIGHT CARD ───────────────────────────────────────────────────────
+mushroom_light_example:
+  type: custom:mushroom-light-card
+  entity: light.salon
+  name: "Salon"
+  icon_type: icon
+  use_light_color: false
+  show_brightness_control: false   # Portrait : slider trop étroit dans 280px
+  fill_container: false
+  card_mod:
+    style: |
+      ha-card {
+        border-radius: 12px !important;
+        border: 1.5px solid var(--divider-color) !important;
+        min-height: 80px;
+        transition: opacity 0.15s ease;
+      }
+      ha-card:active {
+        opacity: 0.80;
+      }
+      mushroom-state-item {
+        --mush-icon-size: 36px;
+      }
+
+# ── MUSHROOM CHIPS CARD ───────────────────────────────────────────────────────
+# En portrait, chips en wrap horizontal — ils s'adaptent naturellement
+mushroom_chips_example:
+  type: custom:mushroom-chips-card
+  alignment: start
+  chips:
+    - type: weather
+      entity: weather.home
+      show_conditions: true
+      show_temperature: true
+    - type: template
+      icon: mdi:thermometer
+      content: "{{ states('sensor.temperature_salon') | round(1) }}°"
+    - type: template
+      icon: mdi:water-percent
+      content: "{{ states('sensor.humidity_salon') | round(0) }}%"
+  card_mod:
+    style: |
+      ha-card {
+        background: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 4px 0;
+      }
+
+# ── MUSHROOM CLIMATE CARD ─────────────────────────────────────────────────────
+mushroom_climate_example:
+  type: custom:mushroom-climate-card
+  entity: climate.salon
+  show_temperature_control: false  # Portrait : contrôles trop étroits dans 280px
+  fill_container: false
+  card_mod:
+    style: |
+      ha-card {
+        border-radius: 12px !important;
+        border: 1.5px solid var(--divider-color) !important;
+        min-height: 80px;
+        transition: opacity 0.15s ease;
+      }
+      ha-card:active {
+        opacity: 0.80;
+      }
+
+# ── TILE CARD (HA natif) ──────────────────────────────────────────────────────
+tile_card_example:
+  type: tile
+  entity: switch.bureau
+  card_mod:
+    style: |
+      ha-card {
+        border-radius: 12px !important;
+        border: 1.5px solid var(--divider-color) !important;
+        --tile-color: var(--primary-color);
+        min-height: 80px;
+        transition: opacity 0.15s ease;
+      }
+      ha-card:active {
+        opacity: 0.80;
+      }
+
+# ── GRID LAYOUT RECOMMANDÉ — Portrait 600×1024 ───────────────────────────────
+# grid-card avec 2 colonnes : chaque card fait ~280px × 80-96px
+# Plus adapté que horizontal-stack (gère le gap automatiquement)
+grid_layout_portrait:
+  type: grid
+  columns: 2
+  square: false
+  cards:
+    - type: tile
+      entity: light.cuisine
+      name: "Cuisine"
+    - type: tile
+      entity: light.salon
+      name: "Salon"
+    - type: tile
+      entity: light.chambre
+      name: "Chambre"
+    - type: tile
+      entity: light.couloir
+      name: "Couloir"
+
+# ── VERTICAL STACK — Layout principal portrait ────────────────────────────────
+# Chips en haut → section labels → grid 2 col
+vertical_layout_portrait:
+  type: vertical-stack
+  cards:
+    # Chips météo + statuts
+    - type: custom:mushroom-chips-card
+      alignment: start
+      chips:
+        - type: weather
+          entity: weather.home
+          show_conditions: true
+          show_temperature: true
+    # Grid principale 2 colonnes
+    - type: grid
+      columns: 2
+      square: false
+      cards:
+        - type: tile
+          entity: light.salon
+        - type: tile
+          entity: light.cuisine
+        - type: tile
+          entity: climate.salon
+        - type: tile
+          entity: cover.volet_salon
+        - type: tile
+          entity: lock.porte
+        - type: tile
+          entity: alarm_control_panel.maison
+
+# ── SECTION LABEL (entre groupes de cards) ───────────────────────────────────
+section_label_example:
+  type: markdown
+  content: "**Lumières**"
+  card_mod:
+    style: |
+      ha-card {
+        background: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 4px 0 2px 0;
+      }
+      ha-markdown {
+        color: var(--primary-color) !important;
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 0 4px;
+      }
+
+# ══════════════════════════════════════════════════════════════════════════════
+#  NOTES D'INTÉGRATION PORTRAIT
+#
+#  1. card-mod (HACS) requis pour les styles custom
+#  2. grid-card (type: grid) recommandé → gère columns + gap natif
+#     → NE PAS utiliser horizontal-stack en portrait : manque de flexibilité
+#  3. show_brightness_control et show_temperature_control désactivés par défaut
+#     → trop étroits dans 280px ; activer seulement si tap → detail-card
+#  4. Tap targets : tile-card ≥ 80px hauteur × 280px largeur → confort doigt
+#  5. Nunito Sans via theme/resources (HA 2024+) ou font-loader HACS
+#  6. Switch dark/light → sensor.capteur_humain_eclairement > 50 lux
+#     (HOBEIAN ZG-204ZV cuisine) — voir allanic_nature_switch_automation.yaml
+#  7. Chromium ~70-80 (Kindle Fire 5th gen) : éviter CSS Grid subgrid,
+#     gap non supporté avant Chrome 66 (OK ici), pas de :where(), :is()
+# ══════════════════════════════════════════════════════════════════════════════
