@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 1.1.0 (Kindle Fire 5th Gen optimisé)
+#  Version: 0.3.0 (Kindle Fire 5th Gen optimisé + Mushroom RGB overrides)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -66,7 +66,6 @@ allanic_nature_dark:
   secondary-text-color: "#7AABB0"
   disabled-text-color: "#2E4A4F"
   text-primary-color: "#E8F4F5"
-  label-badge-text-color: "#E8F4F5"
 
   # ── DIVIDERS ───────────────────────────────────────────────
   # Couleur solide, pas rgba pour visibilité sur bas pixel density
@@ -112,6 +111,17 @@ allanic_nature_dark:
 
   # ── TYPO (1 famille max — Nunito Sans, fallback système) ───
   primary-font-family: "'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+
+  # ── MUSHROOM / TOKENS RGB (override palette Allanic) ───────
+  # Force les cards Mushroom et états light/vacuum à utiliser le cyan Allanic
+  # au lieu du teal Material par défaut (rgb(0,150,136)).
+  rgb-teal: "0, 178, 198"               # #00B2C6 cyan Allanic
+  rgb-primary-color: "0, 178, 198"
+  rgb-accent-color: "13, 93, 109"
+  rgb-state-light-active: "0, 178, 198"
+  rgb-state-vacuum-cleaning: "0, 178, 198"
+  mush-rgb-teal: "0, 178, 198"
+  mush-rgb-primary: "0, 178, 198"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -160,7 +170,6 @@ allanic_nature_light:
   secondary-text-color: "#2C5F67"
   disabled-text-color: "#8AA8AC"
   text-primary-color: "#111E20"
-  label-badge-text-color: "#FFFFFF"
 
   # ── DIVIDERS (solide, visible) ─────────────────────────────
   divider-color: "#B8D1D5"
@@ -205,3 +214,14 @@ allanic_nature_light:
 
   # ── TYPO ───────────────────────────────────────────────────
   primary-font-family: "'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+
+  # ── MUSHROOM / TOKENS RGB (override palette Allanic) ───────
+  # Variant light : active states en teal foncé (#0D5D6D) pour contraste
+  # sur fond clair ; teal cyan vif réservé aux accents.
+  rgb-teal: "0, 178, 198"               # #00B2C6 cyan Allanic
+  rgb-primary-color: "13, 93, 109"
+  rgb-accent-color: "16, 112, 132"
+  rgb-state-light-active: "13, 93, 109"
+  rgb-state-vacuum-cleaning: "13, 93, 109"
+  mush-rgb-teal: "0, 178, 198"
+  mush-rgb-primary: "13, 93, 109"
