@@ -142,15 +142,15 @@ allanic_nature_light:
   lovelace-background: "#EDF4F5"
 
   # ── CARDS ──────────────────────────────────────────────────
-  card-background-color: "#FFFFFF"
-  paper-card-background-color: "#FFFFFF"
-  paper-listbox-background-color: "#FFFFFF"
-  ha-card-background: "#FFFFFF"
+  card-background-color: "#F2F9FA"
+  paper-card-background-color: "#F2F9FA"
+  paper-listbox-background-color: "#F2F9FA"
+  ha-card-background: "#F2F9FA"
   ha-card-border-radius: "12px"
-  ha-card-border-width: "1.5px"
-  ha-card-border-color: "#C8DDE0"
-  # Ombre simple
-  ha-card-box-shadow: "0 2px 6px rgba(13, 93, 109, 0.14)"
+  ha-card-border-width: "2px"
+  ha-card-border-color: "#8AB4BB"
+  # Ombre simple (contraste renforcé tablettes)
+  ha-card-box-shadow: "0 2px 8px rgba(13, 93, 109, 0.28)"
 
   # ── HEADER ─────────────────────────────────────────────────
   app-header-background-color: "#0D5D6D"
