@@ -1,227 +1,156 @@
-# ══════════════════════════════════════════════════════════════════════════════
-#  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.3 (allanic_nature_light: card bg = border green #0D5D6D)
-#  Auteur: Designer Bleuenn / Personas Studio
-#  DA: allanic.me — Teal profond #0D5D6D + nature organique
-#  Typo: Nunito Sans (Google Fonts, 1 seule famille)
-#  Cibles hardware: Kindle Fire 5th Gen — 1024×600 / WebView ~Chromium 70-80
-#  ──────────────────────────────────────────────────────────────────────────
-#  ⚠️ OPTIMISATIONS KINDLE FIRE
-#  - Pas de backdrop-filter, pas de blur, pas de gradients animés
-#  - CSS conservateur : pas de :has(), pas de color-mix(), pas de @property
-#  - Fonds SOLIDES (pas de rgba sur backgrounds principaux → évite compositing)
-#  - Ombres : 1 couche max, légères
-#  - Bordures cartes : 1.5px (hairlines 1px invisibles à 171ppi)
-#  - Animations : uniquement via HA, pas CSS media query pour dark/light switch
-#  - Nunito Sans chargé via resources (1 seule font)
-# ══════════════════════════════════════════════════════════════════════════════
-
 allanic_nature_dark:
-  # ── PALETTE ──
-  # Teal signature Allanic : #0D5D6D
-  # Cyan bio : #00B2C6
-  # Fond noir teinté : #0B1215
-  # Mood : forêt nocturne, bioluminescence sous-marine
-  # ─────────────────────────────────────────────────────────────────────────
-  # NOTA: Ce thème est appliqué via service call frontend.set_theme (HA automations)
-  # NE PAS reposer sur prefers-color-scheme CSS (non fiable sur WebView ancien)
-
-  # ── COULEURS GLOBALES ──────────────────────────────────────
-  primary-color: "#00B2C6"
-  accent-color: "#0D5D6D"
-
-  # ── FONDS (solides, pas de rgba — évite compositing sur GPU faible) ────
-  primary-background-color: "#0B1215"
-  secondary-background-color: "#0D1618"
-  lovelace-background: "#0B1215"
-
-  # ── CARDS ──────────────────────────────────────────────────
-  # Fond solide (pas rgba — performance Kindle Fire)
-  card-background-color: "#131D1F"
-  paper-card-background-color: "#131D1F"
-  paper-listbox-background-color: "#131D1F"
-  ha-card-background: "#131D1F"
-  ha-card-border-radius: "12px"
-  # 1.5px minimum (hairline 1px invisible sur écran 171ppi)
-  ha-card-border-width: "1.5px"
-  ha-card-border-color: "#1C3338"
-  # Ombre simple (1 couche, pas de double shadow — perf)
-  ha-card-box-shadow: "0 2px 8px rgba(0, 0, 0, 0.50)"
-
-  # ── HEADER ─────────────────────────────────────────────────
-  app-header-background-color: "#080F11"
-  app-header-text-color: "#D8EBEC"
-  app-header-selection-bar-color: "#00B2C6"
-
-  # ── SIDEBAR ────────────────────────────────────────────────
-  sidebar-background-color: "#0A1315"
-  sidebar-text-color: "#7AABB0"
-  sidebar-selected-background-color: "#132528"
-  sidebar-selected-text-color: "#00B2C6"
-  sidebar-icon-color: "#4A8088"
-  sidebar-selected-icon-color: "#00B2C6"
-
-  # ── TEXTE (contrastes renforcés pour 171ppi) ───────────────
-  primary-text-color: "#E8F4F5"
-  secondary-text-color: "#7AABB0"
-  disabled-text-color: "#2E4A4F"
-  text-primary-color: "#E8F4F5"
-
-  # ── DIVIDERS ───────────────────────────────────────────────
-  # Couleur solide, pas rgba pour visibilité sur bas pixel density
-  divider-color: "#1C3338"
-  light-primary-color: "#1A3A3E"
-
-  # ── ICONS ──────────────────────────────────────────────────
-  state-icon-color: "#4A8088"
-  state-icon-active-color: "#00B2C6"
-  paper-item-icon-color: "#4A8088"
-  paper-item-icon-active-color: "#00B2C6"
-
-  # ── CONTRÔLES ──────────────────────────────────────────────
-  switch-checked-color: "#0D5D6D"
-  switch-unchecked-color: "#1A2E31"
-  switch-checked-button-color: "#00B2C6"
-  switch-checked-track-color: "#1A5560"
-  slider-color: "#0D5D6D"
-  paper-toggle-button-checked-button-color: "#00B2C6"
-  paper-toggle-button-checked-bar-color: "#1A5560"
-
-  # ── ÉTATS SÉMANTIQUES ──────────────────────────────────────
-  success-color: "#1B8A57"
-  warning-color: "#E89318"
-  error-color: "#D63C2B"
-  info-color: "#0D5D6D"
-
-  # ── BADGE ──────────────────────────────────────────────────
-  label-badge-background-color: "#0D5D6D"
-  label-badge-text-color: "#FFFFFF"
-  label-badge-border-color: "#00B2C6"
-
-  # ── INPUTS ─────────────────────────────────────────────────
-  input-fill-color: "#132025"
-  input-ink-color: "#E8F4F5"
-  input-label-ink-color: "#7AABB0"
-  input-dropdown-bg-color: "#131D1F"
-
-  # ── ENERGY ─────────────────────────────────────────────────
-  energy-grid-consumption-color: "#00B2C6"
-  energy-solar-color: "#E89318"
-  energy-battery-in-color: "#1B8A57"
-
-  # ── TYPO (1 famille max — Nunito Sans, fallback système) ───
-  primary-font-family: "'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-
-  # ── MUSHROOM / TOKENS RGB (override palette Allanic) ───────
-  # Force les cards Mushroom et états light/vacuum à utiliser le cyan Allanic
-  # au lieu du teal Material par défaut (rgb(0,150,136)).
-  rgb-teal: "0, 178, 198"               # #00B2C6 cyan Allanic
-  rgb-primary-color: "0, 178, 198"
-  rgb-accent-color: "13, 93, 109"
-  rgb-state-light-active: "0, 178, 198"
-  rgb-state-vacuum-cleaning: "0, 178, 198"
-  mush-rgb-teal: "0, 178, 198"
-  mush-rgb-primary: "0, 178, 198"
-
-
-# ══════════════════════════════════════════════════════════════════════════════
-
+  accent-color: '#0D5D6D'
+  app-header-background-color: '#080F11'
+  app-header-selection-bar-color: '#00B2C6'
+  app-header-text-color: '#D8EBEC'
+  card-background-color: '#131D1F'
+  code-editor-background-color: '#0A1315'
+  codemirror-atom: '#B09FD8'
+  codemirror-builtin: '#7EC99A'
+  codemirror-comment: '#5A8A90'
+  codemirror-def: '#E8F4F5'
+  codemirror-error: '#E06060'
+  codemirror-keyword: '#5DD8F0'
+  codemirror-meta: '#8AACB0'
+  codemirror-number: '#F0C060'
+  codemirror-operator: '#D8EBEC'
+  codemirror-property: '#E8F4F5'
+  codemirror-string: '#7EC99A'
+  codemirror-tag: '#5DD8F0'
+  codemirror-variable: '#A8D0D5'
+  codemirror-variable-2: '#90C0C5'
+  disabled-text-color: '#5A8A90'
+  divider-color: '#1C3338'
+  energy-battery-in-color: '#1B8A57'
+  energy-grid-consumption-color: '#00B2C6'
+  energy-solar-color: '#E89318'
+  error-color: '#D63C2B'
+  ha-card-background: '#131D1F'
+  ha-card-border-color: '#1C3338'
+  ha-card-border-radius: 12px
+  ha-card-border-width: 1.5px
+  ha-card-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.50)
+  info-color: '#0D5D6D'
+  input-dropdown-bg-color: '#131D1F'
+  input-fill-color: '#132025'
+  input-ink-color: '#E8F4F5'
+  input-label-ink-color: '#7AABB0'
+  label-badge-background-color: '#0D5D6D'
+  label-badge-border-color: '#00B2C6'
+  label-badge-text-color: '#FFFFFF'
+  light-primary-color: '#1A3A3E'
+  lovelace-background: '#0B1215'
+  mush-rgb-primary: 0, 178, 198
+  mush-rgb-teal: 0, 178, 198
+  paper-card-background-color: '#131D1F'
+  paper-item-icon-active-color: '#00B2C6'
+  paper-item-icon-color: '#4A8088'
+  paper-listbox-background-color: '#131D1F'
+  paper-toggle-button-checked-bar-color: '#1A5560'
+  paper-toggle-button-checked-button-color: '#00B2C6'
+  primary-background-color: '#0B1215'
+  primary-color: '#00B2C6'
+  primary-font-family: '''Nunito Sans'', -apple-system, BlinkMacSystemFont, ''Segoe
+    UI'', sans-serif'
+  primary-text-color: '#E8F4F5'
+  rgb-accent-color: 13, 93, 109
+  rgb-primary-color: 0, 178, 198
+  rgb-state-light-active: 0, 178, 198
+  rgb-state-vacuum-cleaning: 0, 178, 198
+  rgb-teal: 0, 178, 198
+  secondary-background-color: '#0D1618'
+  secondary-text-color: '#7AABB0'
+  sidebar-background-color: '#0A1315'
+  sidebar-icon-color: '#4A8088'
+  sidebar-selected-background-color: '#132528'
+  sidebar-selected-icon-color: '#00B2C6'
+  sidebar-selected-text-color: '#00B2C6'
+  sidebar-text-color: '#7AABB0'
+  slider-color: '#0D5D6D'
+  state-icon-active-color: '#00B2C6'
+  state-icon-color: '#4A8088'
+  success-color: '#1B8A57'
+  switch-checked-button-color: '#00B2C6'
+  switch-checked-color: '#0D5D6D'
+  switch-checked-track-color: '#1A5560'
+  switch-unchecked-color: '#1A2E31'
+  text-primary-color: '#E8F4F5'
+  warning-color: '#E89318'
 allanic_nature_light:
-  # ── PALETTE ──
-  # Teal signature Allanic : #0D5D6D
-  # Fond écru teinté : #EEF4F5
-  # Mood : clairière nordique, lumière filtrée
-
-  # ── COULEURS GLOBALES ──────────────────────────────────────
-  primary-color: "#0D5D6D"
-  accent-color: "#107084"
-
-  # ── FONDS (solides) ────────────────────────────────────────
-  primary-background-color: "#EDF4F5"
-  secondary-background-color: "#DEE9EA"
-  lovelace-background: "#EDF4F5"
-
-  # ── CARDS ──────────────────────────────────────────────────
-  card-background-color: "#0D5D6D"
-  paper-card-background-color: "#0D5D6D"
-  paper-listbox-background-color: "#0D5D6D"
-  ha-card-background: "#0D5D6D"
-  ha-card-border-radius: "12px"
-  ha-card-border-width: "2px"
-  ha-card-border-color: "#0A4D5C"
-  # Ombre simple (contraste renforcé tablettes)
-  ha-card-box-shadow: "0 2px 8px rgba(0, 0, 0, 0.40)"
-
-  # ── HEADER ─────────────────────────────────────────────────
-  app-header-background-color: "#0D5D6D"
-  app-header-text-color: "#FFFFFF"
-  app-header-selection-bar-color: "#00B2C6"
-
-  # ── SIDEBAR ────────────────────────────────────────────────
-  sidebar-background-color: "#E6F2F3"
-  sidebar-text-color: "#2C5F67"
-  sidebar-selected-background-color: "#C8DDE0"
-  sidebar-selected-text-color: "#0D5D6D"
-  sidebar-icon-color: "#4A8088"
-  sidebar-selected-icon-color: "#0D5D6D"
-
-  # ── TEXTE (contrastes renforcés) ───────────────────────────
-  primary-text-color: "#E8F4F5"
-  secondary-text-color: "#A8D0D5"
-  disabled-text-color: "#8AA8AC"
-  text-primary-color: "#E8F4F5"
-
-  # ── DIVIDERS (solide, visible) ─────────────────────────────
-  divider-color: "#B8D1D5"
-  light-primary-color: "#BDD4D8"
-
-  # ── ICONS ──────────────────────────────────────────────────
-  state-icon-color: "#4A8088"
-  state-icon-active-color: "#0D5D6D"
-  paper-item-icon-color: "#4A8088"
-  paper-item-icon-active-color: "#0D5D6D"
-
-  # ── CONTRÔLES ──────────────────────────────────────────────
-  switch-checked-color: "#0D5D6D"
-  switch-unchecked-color: "#A8C8CC"
-  switch-checked-button-color: "#0D5D6D"
-  switch-checked-track-color: "#5A9EA6"
-  slider-color: "#0D5D6D"
-  paper-toggle-button-checked-button-color: "#0D5D6D"
-  paper-toggle-button-checked-bar-color: "#5A9EA6"
-
-  # ── ÉTATS SÉMANTIQUES ──────────────────────────────────────
-  success-color: "#1B5E20"
-  warning-color: "#C25E00"
-  error-color: "#B71C1C"
-  info-color: "#0D5D6D"
-
-  # ── BADGE ──────────────────────────────────────────────────
-  label-badge-background-color: "#0D5D6D"
-  label-badge-text-color: "#FFFFFF"
-  label-badge-border-color: "#0D5D6D"
-
-  # ── INPUTS ─────────────────────────────────────────────────
-  input-fill-color: "#D8EAEC"
-  input-ink-color: "#111E20"
-  input-label-ink-color: "#2C5F67"
-  input-dropdown-bg-color: "#FFFFFF"
-
-  # ── ENERGY ─────────────────────────────────────────────────
-  energy-grid-consumption-color: "#0D5D6D"
-  energy-solar-color: "#C25E00"
-  energy-battery-in-color: "#1B5E20"
-
-  # ── TYPO ───────────────────────────────────────────────────
-  primary-font-family: "'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-
-  # ── MUSHROOM / TOKENS RGB (override palette Allanic) ───────
-  # Variant light : active states en teal foncé (#0D5D6D) pour contraste
-  # sur fond clair ; teal cyan vif réservé aux accents.
-  rgb-teal: "0, 178, 198"               # #00B2C6 cyan Allanic
-  rgb-primary-color: "13, 93, 109"
-  rgb-accent-color: "16, 112, 132"
-  rgb-state-light-active: "13, 93, 109"
-  rgb-state-vacuum-cleaning: "13, 93, 109"
-  mush-rgb-teal: "0, 178, 198"
-  mush-rgb-primary: "13, 93, 109"
+  accent-color: '#107084'
+  app-header-background-color: '#0D5D6D'
+  app-header-selection-bar-color: '#00B2C6'
+  app-header-text-color: '#FFFFFF'
+  card-background-color: '#0D5D6D'
+  code-editor-background-color: '#0A4855'
+  codemirror-atom: '#C5B8E8'
+  codemirror-builtin: '#A8E6B0'
+  codemirror-comment: '#90C5CB'
+  codemirror-def: '#E8F4F5'
+  codemirror-error: '#FF9090'
+  codemirror-keyword: '#7FD9FF'
+  codemirror-meta: '#B0C4CC'
+  codemirror-number: '#FFD080'
+  codemirror-operator: '#E8F4F5'
+  codemirror-property: '#E8F4F5'
+  codemirror-string: '#A8E6B0'
+  codemirror-tag: '#7FD9FF'
+  codemirror-variable: '#D0E8EB'
+  codemirror-variable-2: '#B8D8DC'
+  disabled-text-color: '#8AA8AC'
+  divider-color: '#B8D1D5'
+  energy-battery-in-color: '#1B5E20'
+  energy-grid-consumption-color: '#0D5D6D'
+  energy-solar-color: '#C25E00'
+  error-color: '#B71C1C'
+  ha-card-background: '#0D5D6D'
+  ha-card-border-color: '#0A4D5C'
+  ha-card-border-radius: 12px
+  ha-card-border-width: 2px
+  ha-card-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.40)
+  info-color: '#0D5D6D'
+  input-dropdown-bg-color: '#FFFFFF'
+  input-fill-color: '#D8EAEC'
+  input-ink-color: '#111E20'
+  input-label-ink-color: '#2C5F67'
+  label-badge-background-color: '#0D5D6D'
+  label-badge-border-color: '#0D5D6D'
+  label-badge-text-color: '#FFFFFF'
+  light-primary-color: '#BDD4D8'
+  lovelace-background: '#EDF4F5'
+  mush-rgb-primary: 13, 93, 109
+  mush-rgb-teal: 0, 178, 198
+  paper-card-background-color: '#0D5D6D'
+  paper-item-icon-active-color: '#0D5D6D'
+  paper-item-icon-color: '#4A8088'
+  paper-listbox-background-color: '#0D5D6D'
+  paper-toggle-button-checked-bar-color: '#5A9EA6'
+  paper-toggle-button-checked-button-color: '#0D5D6D'
+  primary-background-color: '#EDF4F5'
+  primary-color: '#0D5D6D'
+  primary-font-family: '''Nunito Sans'', -apple-system, BlinkMacSystemFont, ''Segoe
+    UI'', sans-serif'
+  primary-text-color: '#E8F4F5'
+  rgb-accent-color: 16, 112, 132
+  rgb-primary-color: 13, 93, 109
+  rgb-state-light-active: 13, 93, 109
+  rgb-state-vacuum-cleaning: 13, 93, 109
+  rgb-teal: 0, 178, 198
+  secondary-background-color: '#DEE9EA'
+  secondary-text-color: '#C8E4E8'
+  sidebar-background-color: '#E6F2F3'
+  sidebar-icon-color: '#4A8088'
+  sidebar-selected-background-color: '#C8DDE0'
+  sidebar-selected-icon-color: '#0D5D6D'
+  sidebar-selected-text-color: '#0D5D6D'
+  sidebar-text-color: '#2C5F67'
+  slider-color: '#0D5D6D'
+  state-icon-active-color: '#0D5D6D'
+  state-icon-color: '#4A8088'
+  success-color: '#1B5E20'
+  switch-checked-button-color: '#0D5D6D'
+  switch-checked-color: '#0D5D6D'
+  switch-checked-track-color: '#5A9EA6'
+  switch-unchecked-color: '#A8C8CC'
+  text-primary-color: '#E8F4F5'
+  warning-color: '#C25E00'
