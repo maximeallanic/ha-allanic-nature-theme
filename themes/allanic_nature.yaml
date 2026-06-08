@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.2 (allanic_nature_light: card bg = shadow green #BBD2D6)
+#  Version: 0.3.3 (allanic_nature_light: card bg = border green #0D5D6D)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -142,15 +142,15 @@ allanic_nature_light:
   lovelace-background: "#EDF4F5"
 
   # ── CARDS ──────────────────────────────────────────────────
-  card-background-color: "#BBD2D6"
-  paper-card-background-color: "#BBD2D6"
-  paper-listbox-background-color: "#BBD2D6"
-  ha-card-background: "#BBD2D6"
+  card-background-color: "#0D5D6D"
+  paper-card-background-color: "#0D5D6D"
+  paper-listbox-background-color: "#0D5D6D"
+  ha-card-background: "#0D5D6D"
   ha-card-border-radius: "12px"
   ha-card-border-width: "2px"
-  ha-card-border-color: "#0D5D6D"
+  ha-card-border-color: "#0A4D5C"
   # Ombre simple (contraste renforcé tablettes)
-  ha-card-box-shadow: "0 2px 8px rgba(13, 93, 109, 0.40)"
+  ha-card-box-shadow: "0 2px 8px rgba(0, 0, 0, 0.40)"
 
   # ── HEADER ─────────────────────────────────────────────────
   app-header-background-color: "#0D5D6D"
@@ -166,10 +166,10 @@ allanic_nature_light:
   sidebar-selected-icon-color: "#0D5D6D"
 
   # ── TEXTE (contrastes renforcés) ───────────────────────────
-  primary-text-color: "#111E20"
-  secondary-text-color: "#2C5F67"
+  primary-text-color: "#E8F4F5"
+  secondary-text-color: "#A8D0D5"
   disabled-text-color: "#8AA8AC"
-  text-primary-color: "#111E20"
+  text-primary-color: "#E8F4F5"
 
   # ── DIVIDERS (solide, visible) ─────────────────────────────
   divider-color: "#B8D1D5"
