@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.3 (allanic_nature_light: card bg = border green #0D5D6D)
+#  Version: 0.3.4 (add CodeMirror syntax tokens, WCAG AA, both variants)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -112,6 +112,17 @@ allanic_nature_dark:
   # ── TYPO (1 famille max — Nunito Sans, fallback système) ───
   primary-font-family: "'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
 
+
+  # ── ÉDITEUR DE CODE (CodeMirror) ──────────────────────────
+  code-editor-background-color: "#0A1315"
+  codemirror-keyword: "#5DD8F0"
+  codemirror-string: "#7EC99A"
+  codemirror-property: "#E8F4F5"
+  codemirror-number: "#F0C060"
+  codemirror-comment: "#5A8A90"
+  codemirror-atom: "#B09FD8"
+  codemirror-meta: "#8AACB0"
+  codemirror-tag: "#5DD8F0"
   # ── MUSHROOM / TOKENS RGB (override palette Allanic) ───────
   # Force les cards Mushroom et états light/vacuum à utiliser le cyan Allanic
   # au lieu du teal Material par défaut (rgb(0,150,136)).
@@ -215,6 +226,17 @@ allanic_nature_light:
   # ── TYPO ───────────────────────────────────────────────────
   primary-font-family: "'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
 
+
+  # ── ÉDITEUR DE CODE (CodeMirror) ──────────────────────────
+  code-editor-background-color: "#0A4855"
+  codemirror-keyword: "#7FD9FF"
+  codemirror-string: "#A8E6B0"
+  codemirror-property: "#E8F4F5"
+  codemirror-number: "#FFD080"
+  codemirror-comment: "#90C5CB"
+  codemirror-atom: "#C5B8E8"
+  codemirror-meta: "#B0C4CC"
+  codemirror-tag: "#7FD9FF"
   # ── MUSHROOM / TOKENS RGB (override palette Allanic) ───────
   # Variant light : active states en teal foncé (#0D5D6D) pour contraste
   # sur fond clair ; teal cyan vif réservé aux accents.
