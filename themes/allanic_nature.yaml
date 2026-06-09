@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.8 (secondary-text clair sur surface teal, tab labels, icônes dropdown alignées)
+#  Version: 0.3.9 (icônes dropdown ⋮ near-white via ha-color-on-neutral-normal + fill dark)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -280,11 +280,17 @@ allanic_nature_light:
   # Mêmes sources que variante dark.
   ha-border-radius-md: "12px"                    # aligne dropdown sur ha-card-border-radius
   ha-color-border-neutral-quiet: "#0A4D5C"       # = ha-card-border-color light
-  # ── ICÔNES MENU DÉROULANT ──────────────────────────────────
-  # ha-color-on-neutral-normal: RETIRÉ (v0.3.8) — ce token pilote aussi
-  # ha-automation-row-event-chip et .note-indicator sur fond neutral-90 (light grey ~#E6E6E6).
-  # #E8F4F5 sur #E6E6E6 = 1.1:1 → régression automation chips. Aucun token plus ciblé disponible.
-  # Icônes light: défaut HA neutral-40 (#5e5e5e). AC2 light: limitation documentée.
+  # ── ICÔNES MENU DÉROULANT + NEUTRAL FILLS ──────────────────
+  # Source ha-dropdown-item.ts: #icon::slotted(*){color:var(--ha-color-on-neutral-normal)}
+  # Source ha-svg-icon.ts: fill:var(--icon-primary-color,currentColor) → currentColor=on-neutral-normal
+  # SOLUTION SCOPÉE (double-var): poser on-neutral-normal=#E8F4F5 MAIS aussi darkener le
+  # fill-neutral-normal-resting (#E6E6E6→#162426) → chips still readable (17:1) sur fond sombre.
+  # Source chips: ha-automation-row-event-chip.ts [variant=neutral] bg=fill-neutral-normal-resting.
+  ha-color-on-neutral-normal: "#E8F4F5"          # icônes dropdown = near-white (9.1:1 sur #0D5D6D)
+  # Neutral chip bg rendu sombre pour garantir lisibilité avec on-neutral-normal=#E8F4F5:
+  ha-color-fill-neutral-normal-resting: "#162426" # dark teal; #E8F4F5 dessus = 17:1 WCAG AAA
+  ha-color-fill-neutral-normal-hover: "#1A2E33"  # légèrement plus clair au hover
+  ha-color-fill-neutral-normal-active: "#162426"  # = resting
   # ── MUSHROOM / TOKENS RGB (override palette Allanic) ───────
   # Variant light : active states en teal foncé (#0D5D6D) pour contraste
   # sur fond clair ; teal cyan vif réservé aux accents.
