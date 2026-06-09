@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.4 (add CodeMirror syntax tokens, WCAG AA, both variants)
+#  Version: 0.3.5 (fix editor caret contrast + menu hover, light+dark)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -123,6 +123,11 @@ allanic_nature_dark:
   codemirror-atom: "#B09FD8"
   codemirror-meta: "#8AACB0"
   codemirror-tag: "#5DD8F0"
+  # ── MENU HOVER (paper-item legacy + mdc-ripple) ──────────
+  # Rend visible la surbrillance hover/focus dans les menus ⋮ et listes admin.
+  paper-item-focused-before-background: "#00B2C6"
+  paper-item-focused-before-opacity: "0.20"
+  mdc-ripple-color: "#00B2C6"
   # ── MUSHROOM / TOKENS RGB (override palette Allanic) ───────
   # Force les cards Mushroom et états light/vacuum à utiliser le cyan Allanic
   # au lieu du teal Material par défaut (rgb(0,150,136)).
@@ -228,7 +233,9 @@ allanic_nature_light:
 
 
   # ── ÉDITEUR DE CODE (CodeMirror) ──────────────────────────
-  code-editor-background-color: "#0A4855"
+  # Fond plus sombre (quasi-noir) : primary-color #0D5D6D (caret focused) désormais
+  # visible (contraste ~5:1) ; syntax colors (tous clairs) inchangés et lisibles.
+  code-editor-background-color: "#061012"
   codemirror-keyword: "#7FD9FF"
   codemirror-string: "#A8E6B0"
   codemirror-property: "#E8F4F5"
@@ -237,6 +244,10 @@ allanic_nature_light:
   codemirror-atom: "#C5B8E8"
   codemirror-meta: "#B0C4CC"
   codemirror-tag: "#7FD9FF"
+  # ── MENU HOVER (paper-item legacy + mdc-ripple) ──────────
+  paper-item-focused-before-background: "#00B2C6"
+  paper-item-focused-before-opacity: "0.25"
+  mdc-ripple-color: "#00B2C6"
   # ── MUSHROOM / TOKENS RGB (override palette Allanic) ───────
   # Variant light : active states en teal foncé (#0D5D6D) pour contraste
   # sur fond clair ; teal cyan vif réservé aux accents.
