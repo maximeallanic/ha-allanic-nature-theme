@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.5 (fix editor caret contrast + menu hover, light+dark)
+#  Version: 0.3.6 (icon menu teal + inactive tab label contrast, light+dark)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -63,7 +63,7 @@ allanic_nature_dark:
 
   # ── TEXTE (contrastes renforcés pour 171ppi) ───────────────
   primary-text-color: "#E8F4F5"
-  secondary-text-color: "#7AABB0"
+  secondary-text-color: "#00B2C6"
   disabled-text-color: "#2E4A4F"
   text-primary-color: "#E8F4F5"
 
@@ -75,7 +75,7 @@ allanic_nature_dark:
   # ── ICONS ──────────────────────────────────────────────────
   state-icon-color: "#4A8088"
   state-icon-active-color: "#00B2C6"
-  paper-item-icon-color: "#4A8088"
+  paper-item-icon-color: "#00B2C6"
   paper-item-icon-active-color: "#00B2C6"
 
   # ── CONTRÔLES ──────────────────────────────────────────────
@@ -128,6 +128,9 @@ allanic_nature_dark:
   paper-item-focused-before-background: "#00B2C6"
   paper-item-focused-before-opacity: "0.20"
   mdc-ripple-color: "#00B2C6"
+  # ── ONGLETS (tabs, inactive label) ──────────────────────────
+  # label onglet inactif explicite sur fond sombre (#0A1315/#131D1F)
+  mdc-tab-text-label-color-default: "#E8F4F5"
   # ── MUSHROOM / TOKENS RGB (override palette Allanic) ───────
   # Force les cards Mushroom et états light/vacuum à utiliser le cyan Allanic
   # au lieu du teal Material par défaut (rgb(0,150,136)).
@@ -183,7 +186,7 @@ allanic_nature_light:
 
   # ── TEXTE (contrastes renforcés) ───────────────────────────
   primary-text-color: "#E8F4F5"
-  secondary-text-color: "#A8D0D5"
+  secondary-text-color: "#00B2C6"
   disabled-text-color: "#8AA8AC"
   text-primary-color: "#E8F4F5"
 
@@ -194,7 +197,7 @@ allanic_nature_light:
   # ── ICONS ──────────────────────────────────────────────────
   state-icon-color: "#4A8088"
   state-icon-active-color: "#0D5D6D"
-  paper-item-icon-color: "#4A8088"
+  paper-item-icon-color: "#00B2C6"
   paper-item-icon-active-color: "#0D5D6D"
 
   # ── CONTRÔLES ──────────────────────────────────────────────
@@ -248,6 +251,10 @@ allanic_nature_light:
   paper-item-focused-before-background: "#00B2C6"
   paper-item-focused-before-opacity: "0.25"
   mdc-ripple-color: "#00B2C6"
+  # ── ONGLETS (tabs, inactive label) ──────────────────────────
+  # label onglet inactif sur fond teal foncé (#0D5D6D / dialog bg)
+  # #FFFFFF = 8.5:1 sur #0D5D6D (WCAG AAA) ; clair et distinct de l'actif.
+  mdc-tab-text-label-color-default: "#FFFFFF"
   # ── MUSHROOM / TOKENS RGB (override palette Allanic) ───────
   # Variant light : active states en teal foncé (#0D5D6D) pour contraste
   # sur fond clair ; teal cyan vif réservé aux accents.
