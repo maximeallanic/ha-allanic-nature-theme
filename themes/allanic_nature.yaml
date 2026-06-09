@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.6 (icon menu teal + inactive tab label contrast, light+dark)
+#  Version: 0.3.7 (lisibilité admin: secondary-text-color lisible, dropdown border, icon token propre)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -63,7 +63,8 @@ allanic_nature_dark:
 
   # ── TEXTE (contrastes renforcés pour 171ppi) ───────────────
   primary-text-color: "#E8F4F5"
-  secondary-text-color: "#00B2C6"
+  # near-white : lisible sur fond sombre (page bg #0B1215) + caret CodeMirror unfocused visible
+  secondary-text-color: "#E8F4F5"
   disabled-text-color: "#2E4A4F"
   text-primary-color: "#E8F4F5"
 
@@ -129,8 +130,19 @@ allanic_nature_dark:
   paper-item-focused-before-opacity: "0.20"
   mdc-ripple-color: "#00B2C6"
   # ── ONGLETS (tabs, inactive label) ──────────────────────────
-  # label onglet inactif explicite sur fond sombre (#0A1315/#131D1F)
+  # mdc-tab-text-label-color-default cible les anciens mwc-tab (peu d'effet sur ha-tab-group-tab).
+  # ha-tab-group-tab utilise color:inherit du container (app-header-text-color).
   mdc-tab-text-label-color-default: "#E8F4F5"
+  # ── DROPDOWN / MENU DÉROULANT ──────────────────────────────
+  # Source: dropdown.styles.ts (border-radius: var(--wa-border-radius-m)) +
+  #         wa.globals.ts (--wa-border-radius-m: var(--ha-border-radius-md)) +
+  #         color/wa.globals.ts (--wa-color-surface-border: var(--ha-color-border-neutral-quiet))
+  ha-border-radius-md: "12px"                    # WAS 8px → aligne dropdown sur ha-card-border-radius
+  ha-color-border-neutral-quiet: "#1C3338"       # = ha-card-border-color dark
+  # ── ICÔNES MENU DÉROULANT ──────────────────────────────────
+  # Source: ha-dropdown-item.ts L46: color: var(--ha-color-on-neutral-normal)
+  # Token PROPRE, sans conflit secondary-text-color.
+  ha-color-on-neutral-normal: "#00B2C6"          # icônes ha-dropdown-item en teal accent
   # ── MUSHROOM / TOKENS RGB (override palette Allanic) ───────
   # Force les cards Mushroom et états light/vacuum à utiliser le cyan Allanic
   # au lieu du teal Material par défaut (rgb(0,150,136)).
@@ -186,7 +198,10 @@ allanic_nature_light:
 
   # ── TEXTE (contrastes renforcés) ───────────────────────────
   primary-text-color: "#E8F4F5"
-  secondary-text-color: "#00B2C6"
+  # dark teal lisible sur page bg clair #EDF4F5 (≈12:1 WCAG AAA).
+  # SIDE EFFECT connu: caret CodeMirror unfocused (#2C4A50 sur #061012) = quasi-invisible → limitation
+  # dual-surface light theme; priorisé: lisibilité page réglages > caret éditeur.
+  secondary-text-color: "#2C4A50"
   disabled-text-color: "#8AA8AC"
   text-primary-color: "#E8F4F5"
 
@@ -252,9 +267,15 @@ allanic_nature_light:
   paper-item-focused-before-opacity: "0.25"
   mdc-ripple-color: "#00B2C6"
   # ── ONGLETS (tabs, inactive label) ──────────────────────────
-  # label onglet inactif sur fond teal foncé (#0D5D6D / dialog bg)
-  # #FFFFFF = 8.5:1 sur #0D5D6D (WCAG AAA) ; clair et distinct de l'actif.
+  # mdc-tab-text-label-color-default cible les anciens mwc-tab.
+  # ha-tab-group-tab utilise color:inherit → hérite app-header-text-color #FFFFFF.
   mdc-tab-text-label-color-default: "#FFFFFF"
+  # ── DROPDOWN / MENU DÉROULANT ──────────────────────────────
+  # Mêmes sources que variante dark.
+  ha-border-radius-md: "12px"                    # aligne dropdown sur ha-card-border-radius
+  ha-color-border-neutral-quiet: "#0A4D5C"       # = ha-card-border-color light
+  # ── ICÔNES MENU DÉROULANT ──────────────────────────────────
+  ha-color-on-neutral-normal: "#00B2C6"          # icônes ha-dropdown-item en teal accent
   # ── MUSHROOM / TOKENS RGB (override palette Allanic) ───────
   # Variant light : active states en teal foncé (#0D5D6D) pour contraste
   # sur fond clair ; teal cyan vif réservé aux accents.
