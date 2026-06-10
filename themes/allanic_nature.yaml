@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.19 (mushroom-title-card titres/sous-titres global — card-mod-root-yaml toutes vues)
+#  Version: 0.3.20 (fix liens ha-markdown invisibles — primary-color foncé sur fond dialogue)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -194,6 +194,11 @@ allanic_nature_dark:
   # ha-ripple-focus-opacity: non exposé en source ha-ripple.ts → non ajouté.
   # ha-dropdown-item: pas de ripple/transitions dans source → non inclus.
   card-mod-root-yaml: |
+    # ha-markdown liens invisibles: primary-color=#0D5D6D sur fond dialogue #0B282E = 2.07:1
+    # Diagnostic Hestia task_1095: --markdown-link-color non lu → fix color direct !important.
+    # #4FD0E0 cyan clair = 8.6:1 WCAG AAA sur #0B282E. (dark variant)
+    ha-markdown$: |
+      a { color: #4FD0E0 !important; }
     ha-sidebar$: |
       ha-list-item-button {
         transition: background-color 180ms ease, color 180ms ease, transform 180ms ease !important;
@@ -432,6 +437,9 @@ allanic_nature_light:
     mushroom-title-card$: |
       .title { color: #0D2E33 !important; }
       .subtitle { color: #0A4D5C !important; }
+    # ha-markdown liens invisibles: même fix que dark — dialogues foncés même en thème clair
+    ha-markdown$: |
+      a { color: #4FD0E0 !important; }
     ha-sidebar$: |
       ha-list-item-button {
         transition: background-color 180ms ease, color 180ms ease, transform 180ms ease !important;
