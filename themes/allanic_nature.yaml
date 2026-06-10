@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.17 (hover/active transitions dark+light — card-mod-root-yaml dark, neutral-fill dark)
+#  Version: 0.3.18 (fix cascade footer ha-tip light — color !important direct shadow interne)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -420,8 +420,11 @@ allanic_nature_light:
     ha-tip$: |
       .text { color: #0A4D5C !important; }
       .prefix { color: #0D2E33 !important; }
-    ha-config-dashboard$: |
-      ha-tip { --secondary-text-color: #0A4D5C !important; }
+    ha-config-dashboard$:
+      .: |
+        ha-tip { --secondary-text-color: #0A4D5C !important; }
+      ha-tip$: |
+        .text, .prefix, a { color: #0A4D5C !important; }
     ha-sidebar$: |
       ha-list-item-button {
         transition: background-color 180ms ease, color 180ms ease, transform 180ms ease !important;
