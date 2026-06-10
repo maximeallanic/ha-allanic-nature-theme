@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.16 (fix contraste admin: footer Paramètres + code blocks dialogue Réparations + titre overflow)
+#  Version: 0.3.17 (hover/active transitions dark+light — card-mod-root-yaml dark, neutral-fill dark)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -172,6 +172,12 @@ allanic_nature_dark:
   # Aligné sur primary-text-color (#E8F4F5) = même couleur que texte dropdown.
   # Sûr en dark: neutral-fill dark bg (#neutral-10 = quasi-noir) → #E8F4F5 = 18:1 ✓
   ha-color-on-neutral-normal: "#E8F4F5"          # icônes = même couleur que texte
+  # ── NEUTRAL FILL STATES (hover/active) — dark variant ───────────────────
+  # Source: ha-automation-row-event-chip.ts [variant=neutral] + ha-dropdown-item.ts
+  # fill-neutral-normal-resting = bg repos chips/items neutres (dark teal quasi-noir)
+  ha-color-fill-neutral-normal-resting: "#0A1315" # quasi-noir ; #E8F4F5 dessus = 18:1 WCAG AAA
+  ha-color-fill-neutral-normal-hover: "#0D1A1F"   # légèrement plus clair au hover
+  ha-color-fill-neutral-normal-active: "#0A1315"  # = resting (pressed = retour)
   # ── MUSHROOM / TOKENS RGB (override palette Allanic) ───────
   # Force les cards Mushroom et états light/vacuum à utiliser le cyan Allanic
   # au lieu du teal Material par défaut (rgb(0,150,136)).
@@ -182,6 +188,25 @@ allanic_nature_dark:
   rgb-state-vacuum-cleaning: "0, 178, 198"
   mush-rgb-teal: "0, 178, 198"
   mush-rgb-primary: "0, 178, 198"
+  # ── TRANSITIONS GLOBALES + ÉTATS ACTIFS — CHROME GLOBAL (v0.3.17) ───────
+  # Equivalent dark de card-mod-root-yaml light (absent avant v0.3.17 → 0 transitions dark).
+  # Boutons/icônes: 180ms ease + scale active. Sidebar items: idem.
+  # ha-ripple-focus-opacity: non exposé en source ha-ripple.ts → non ajouté.
+  # ha-dropdown-item: pas de ripple/transitions dans source → non inclus.
+  card-mod-root-yaml: |
+    ha-sidebar$: |
+      ha-list-item-button {
+        transition: background-color 180ms ease, color 180ms ease, transform 180ms ease !important;
+      }
+      ha-list-item-button:active { transform: scale(0.98); }
+    home-assistant-main$: |
+      ha-icon-button, ha-button, mwc-button, mwc-icon-button,
+      mwc-list-item, ha-list-item, ha-md-list-item {
+        transition: background-color 180ms ease, color 180ms ease, transform 180ms ease !important;
+      }
+      ha-icon-button:active, mwc-icon-button:active { transform: scale(0.94); }
+      mwc-button:active, ha-button:active { transform: scale(0.98); }
+      mwc-list-item:active, ha-list-item:active, ha-md-list-item:active { transform: scale(0.99); }
 
 
 # ══════════════════════════════════════════════════════════════════════════════
