@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.18 (fix cascade footer ha-tip light — color !important direct shadow interne)
+#  Version: 0.3.19 (mushroom-title-card titres/sous-titres global — card-mod-root-yaml toutes vues)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -425,6 +425,13 @@ allanic_nature_light:
         ha-tip { --secondary-text-color: #0A4D5C !important; }
       ha-tip$: |
         .text, .prefix, a { color: #0A4D5C !important; }
+    # mushroom-title-card global (root-yaml → toutes vues, pas seulement lovelace/maison — v0.3.19)
+    # Double vecteur: card-mod-card-yaml (ci-dessous) + root-yaml (ici) pour maximal reach.
+    # .title lit --primary-text-color; .subtitle lit --secondary-text-color=#C8E8EC → pale.
+    # color !important direct court-circuite les CSS vars, peu importe leur source.
+    mushroom-title-card$: |
+      .title { color: #0D2E33 !important; }
+      .subtitle { color: #0A4D5C !important; }
     ha-sidebar$: |
       ha-list-item-button {
         transition: background-color 180ms ease, color 180ms ease, transform 180ms ease !important;
