@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.14 (sous-titre VUE natif via ha-heading-card-subtitle-color #0A4D5C — AA 8.5:1)
+#  Version: 0.3.15 (restore hui-view-header$ card-mod #08363A — fix régression sous-titre VUE, CAS B définitif)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -320,18 +320,21 @@ allanic_nature_light:
   # Scope: mushroom-title-card$ ne matche PAS mushroom-template-card/light/etc. → teal préservé.
   card-mod-theme: allanic_nature_light
   # ── VIEW HEADER (titre/sous-titre de vue Lovelace) ──────────
-  # Source: hui-view-header.ts + themes-mixin.ts (HA frontend dev HEAD).
-  # Le thème global est appliqué sur document.documentElement (themes-mixin.ts L.140, main=true).
-  # hui-view-header EST descendant de hui-view-container (dom chain: container→hui-view(ReactiveEl,
-  # no shadow)→hui-sections-view→shadow→hui-view-header). Les CSS vars cascadent nativement.
-  # v0.3.14: RETIRE card-mod-view-yaml hui-view-header$ (sélecteur v0.3.12/v0.3.13, non-nécessaire).
-  # Mécanisme natif suffit : ha-heading-card-subtitle-color=#0A4D5C cascade via documentElement.
-  # ⚠ Card-mod-card-yaml hui-heading-card$ ci-dessous couvre aussi le view-header heading-card.
-  # .imported-card-header conservé (edit-mode overlay, inoffensif en prod) :
+  # CAS B définitif (pixel-mesuré Hestia task_1052, v0.3.14 PATH A = 1.16:1 FAIL).
+  # hui-view-header est hors scope des heading-cards de contenu → natif impossible sur cette surface.
+  # v0.3.13 avait ce sélecteur (#2C5F67) ; v0.3.14 PATH A l'a retiré → régression confirmée.
+  # v0.3.15 : RESTAURE hui-view-header$ :host avec #08363A (11.8:1 AAA sur fond clair #EDF4F5).
   card-mod-view-yaml: |
+    hui-view-header$: |
+      :host {
+        --primary-text-color: #0D2E33 !important;
+        --secondary-text-color: #08363A !important;
+        --ha-heading-card-title-color: #0D2E33 !important;
+        --ha-heading-card-subtitle-color: #08363A !important;
+      }
     .: |
       .imported-card-header .title { color: #0D2E33 !important; }
-      .imported-card-header .subtitle { color: #0A4D5C !important; }
+      .imported-card-header .subtitle { color: #08363A !important; }
   # ── GROUP HEADERS + HA-TIP TEXT (ha-data-table + ha-tip) ──────────────
   # Source: ha-data-table.ts .group-header{background-color:var(--primary-background-color)}
   #   → fond de groupe = fond de page #EDF4F5 = invisible; texte hérité (#E8F4F5 near-white).
