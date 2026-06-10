@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.9 (icônes dropdown ⋮ near-white via ha-color-on-neutral-normal + fill dark)
+#  Version: 0.3.10 (contraste texte fond-clair: mdc-fields, dialogues, heading, mushroom-title via card_mod)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -245,6 +245,14 @@ allanic_nature_light:
   input-ink-color: "#111E20"
   input-label-ink-color: "#2C5F67"
   input-dropdown-bg-color: "#FFFFFF"
+  # ── INPUTS MDC (Material Design Components — champs, selects) ─
+  # Source: mdc-text-field/mdc-select stylesheeets (mwc components).
+  # Sur fond clair (dialogue bg ~#fff, #EDF4F5) → encres foncées.
+  mdc-text-field-ink-color: "#111E20"         # texte saisie ~15:1 sur fond clair (WCAG AAA)
+  mdc-text-field-label-ink-color: "#2C5F67"   # libellé champ ~6.8:1 (WCAG AA+)
+  mdc-text-field-fill-color: "#F2F8F9"        # fond champ teinté clair
+  mdc-select-ink-color: "#111E20"             # texte select ~15:1
+  mdc-select-label-ink-color: "#2C5F67"       # libellé select ~6.8:1
 
   # ── ENERGY ─────────────────────────────────────────────────
   energy-grid-consumption-color: "#0D5D6D"
@@ -291,6 +299,25 @@ allanic_nature_light:
   ha-color-fill-neutral-normal-resting: "#162426" # dark teal; #E8F4F5 dessus = 17:1 WCAG AAA
   ha-color-fill-neutral-normal-hover: "#1A2E33"  # légèrement plus clair au hover
   ha-color-fill-neutral-normal-active: "#162426"  # = resting
+  # ── DIALOGUES MDC + HEADING + MARKDOWN ──────────────────────
+  # Source: mdc-dialog stylesheet (ha-dialog) + ha-heading-card.ts + markdown-element.ts.
+  # Sur fond clair dialogue (#fff~#EDF4F5) → encres foncées WCAG AA+.
+  mdc-dialog-content-ink-color: "#1A3A40"     # corps dialogue ~9:1 (WCAG AAA)
+  mdc-dialog-heading-ink-color: "#0D2E33"     # titres dialogue ~11:1 (WCAG AAA)
+  ha-heading-card-title-color: "#0D2E33"      # heading natif (Bureau/Tapis) sur fond pâle
+  markdown-text-color: "#1A3A40"              # texte markdown sur fond clair
+  # ── CARD_MOD — MUSHROOM TITLE CARD (surface #1 fond clair) ──
+  # Spec Hestia: 27 mushroom-title-card utilisent var(--primary-text-color)=#E8F4F5
+  # → near-white invisible sur lovelace-background=#EDF4F5.
+  # Stratégie: card-mod-card-yaml (appliqué À CHAQUE CARD) + sélecteur mushroom-title-card$
+  # → pierce INTO le shadow-root de la card ciblée. Ne traverse QU'UNE frontière shadow,
+  # qui est exactement celle entre hui-card et mushroom-title-card (correct).
+  # Scope: mushroom-title-card$ ne matche PAS mushroom-template-card/light/etc. → teal préservé.
+  card-mod-theme: allanic_nature_light
+  card-mod-card-yaml: |
+    mushroom-title-card$: |
+      .title { color: #0D2E33 !important; }
+      .subtitle { color: #2C5F67 !important; }
   # ── MUSHROOM / TOKENS RGB (override palette Allanic) ───────
   # Variant light : active states en teal foncé (#0D5D6D) pour contraste
   # sur fond clair ; teal cyan vif réservé aux accents.
