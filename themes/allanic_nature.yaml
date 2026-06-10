@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.15 (restore hui-view-header$ card-mod #08363A — fix régression sous-titre VUE, CAS B définitif)
+#  Version: 0.3.16 (fix contraste admin: footer Paramètres + code blocks dialogue Réparations + titre overflow)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -114,6 +114,14 @@ allanic_nature_dark:
   primary-font-family: "'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
 
 
+  # ── DIALOGUE — CODE BLOCKS + TITRE (v0.3.16) ─────────────
+  # Source: ha-markdown.ts L99-101 (même fix que variante light).
+  # En variante dark, fond dialogue = card-background-color=#131D1F (sombre).
+  # Sans markdown-code-background-color → fond browser blanc → texte #E8F4F5 near-white = invisible.
+  markdown-code-background-color: "#1A3A40"   # fond code distinct 10.8:1 avec #E8F4F5
+  markdown-code-text-color: "#E8F4F5"         # texte code clair
+  # Source: ha-dialog-header.ts L73: hauteur fixe → long titre chevauche sous-titre.
+  ha-dialog-header-title-height: "auto"       # workaround structurel (même fix dark+light)
   # ── ÉDITEUR DE CODE (CodeMirror) ──────────────────────────
   code-editor-background-color: "#0A1315"
   codemirror-keyword: "#5DD8F0"
@@ -129,6 +137,22 @@ allanic_nature_dark:
   paper-item-focused-before-background: "#00B2C6"
   paper-item-focused-before-opacity: "0.20"
   mdc-ripple-color: "#00B2C6"
+  # ── ÉTATS INTERACTIFS (hover / focus / pressed) — CHROME GLOBAL ──────────
+  # 2-couleurs : state-layer teal #00B2C6 (cyan Allanic) sur tout composant interactif.
+  # Source MDC: --mdc-ripple-{hover,focus,press}-opacity pilotent le state-layer des
+  #   composants legacy (mwc-button, mwc-list-item ⋮, mwc-icon-button, ha-select).
+  #   Sans override = défauts MDC (0.04/0.12/0.12) → hover quasi-invisible. On les rend explicites,
+  #   pressed > hover (un cran plus marqué).
+  mdc-ripple-hover-opacity: "0.08"   # hover subtil
+  mdc-ripple-focus-opacity: "0.12"   # focus clavier
+  mdc-ripple-press-opacity: "0.16"   # pressed un cran plus marqué
+  # Source frontend HA: ha-ripple.ts (MD3) pilote le state-layer des composants MODERNES :
+  #   sidebar ha-list-item-button, ha-md-list-item (listes Réglages/dialogues), ha-button moderne.
+  #   --ha-ripple-color défaut hérite --primary-text-color (#E8F4F5 near-white → INVISIBLE).
+  #   On force teal #00B2C6 + opacités hover<pressed pour un feedback visible et cohérent.
+  ha-ripple-color: "#00B2C6"
+  ha-ripple-hover-opacity: "0.08"
+  ha-ripple-pressed-opacity: "0.16"
   # ── ONGLETS (tabs, label inactif) ───────────────────────────
   # Source: tab.styles.ts L6 `:host{color:var(--wa-color-neutral-on-quiet)}`
   # ha-tab-group-tab: --wa-color-neutral-on-quiet = --wa-color-brand-on-quiet
@@ -279,6 +303,15 @@ allanic_nature_light:
   paper-item-focused-before-background: "#00B2C6"
   paper-item-focused-before-opacity: "0.25"
   mdc-ripple-color: "#00B2C6"
+  # ── ÉTATS INTERACTIFS (hover / focus / pressed) — CHROME GLOBAL ──────────
+  # Mêmes mécanismes que la variante dark (mdc-ripple legacy + ha-ripple MD3).
+  # state-layer teal #00B2C6 visible sur fond clair ; pressed > hover.
+  mdc-ripple-hover-opacity: "0.08"
+  mdc-ripple-focus-opacity: "0.12"
+  mdc-ripple-press-opacity: "0.16"
+  ha-ripple-color: "#00B2C6"
+  ha-ripple-hover-opacity: "0.08"
+  ha-ripple-pressed-opacity: "0.16"
   # ── ONGLETS (tabs, label inactif) ───────────────────────────
   # Même fix que dark: ha-tab-active-text-color=#FFFFFF
   # #FFFFFF sur header bg #0D5D6D = 8.5:1 WCAG AAA ✓ (sans fix: primary-color=#0D5D6D = invisible)
@@ -311,6 +344,17 @@ allanic_nature_light:
   # Cascade: themes-mixin.ts applique sur document.documentElement → cascade jusqu'hui-view-header.
   ha-heading-card-subtitle-color: "#0A4D5C"   # heading style=subtitle sur fond pâle ~8.5:1 (WCAG AAA)
   markdown-text-color: "#1A3A40"              # texte markdown sur fond clair
+  # ── DIALOGUE RÉPARATIONS — CODE BLOCKS + TITRE (v0.3.16) ────
+  # Source: ha-markdown.ts L99-101: background=var(--markdown-code-background-color,none) +
+  #   color=var(--markdown-code-text-color,inherit). Valeurs par défaut → fond blanc (browser)
+  #   + texte hérité primary-text-color=#E8F4F5 (near-white) = invisible (bug 2a).
+  # Fix: fond sombre distinct + texte clair → 10.8:1 WCAG AAA.
+  markdown-code-background-color: "#1A3A40"   # fond code lisible (10.8:1 avec text #E8F4F5)
+  markdown-code-text-color: "#E8F4F5"         # texte code clair (near-white 10.8:1 sur #1A3A40)
+  # Source: ha-dialog-header.ts L73: height=var(--ha-dialog-header-title-height,...) fixe.
+  # Bug 2b: titre long → dépasse container → chevauche sous-titre (STRUCTUREL).
+  # Workaround: auto = hauteur dynamique. NE touche PAS la couleur (structurel, pas couleur).
+  ha-dialog-header-title-height: "auto"       # titre dialogue wraps sans overflow (structurel fix)
   # ── CARD_MOD — MUSHROOM TITLE CARD (surface #1 fond clair) ──
   # Spec Hestia: 27 mushroom-title-card utilisent var(--primary-text-color)=#E8F4F5
   # → near-white invisible sur lovelace-background=#EDF4F5.
@@ -340,6 +384,8 @@ allanic_nature_light:
   #   → fond de groupe = fond de page #EDF4F5 = invisible; texte hérité (#E8F4F5 near-white).
   # Source: ha-tip.ts .text{color:var(--secondary-text-color)} = #C8E8EC near-white.
   # card-mod-root-yaml cible ces éléments dans toute l'app (traversal depuis home-assistant).
+  # ha-config-dashboard$ : scope admin settings → ha-tip community footer (bug1 v0.3.16)
+  # ha-tip$ : scope dashboard inline tips (vecteur alternatif). Couleur durcies→#0A4D5C (8.5:1 AAA).
   card-mod-root-yaml: |
     ha-data-table$: |
       .group-header {
@@ -347,8 +393,23 @@ allanic_nature_light:
         color: #0D2E33 !important;
       }
     ha-tip$: |
-      .text { color: #2C5F67 !important; }
+      .text { color: #0A4D5C !important; }
       .prefix { color: #0D2E33 !important; }
+    ha-config-dashboard$: |
+      ha-tip { --secondary-text-color: #0A4D5C !important; }
+    ha-sidebar$: |
+      ha-list-item-button {
+        transition: background-color 180ms ease, color 180ms ease, transform 180ms ease !important;
+      }
+      ha-list-item-button:active { transform: scale(0.98); }
+    home-assistant-main$: |
+      ha-icon-button, ha-button, mwc-button, mwc-icon-button,
+      mwc-list-item, ha-list-item, ha-md-list-item {
+        transition: background-color 180ms ease, color 180ms ease, transform 180ms ease !important;
+      }
+      ha-icon-button:active, mwc-icon-button:active { transform: scale(0.94); }
+      mwc-button:active, ha-button:active { transform: scale(0.98); }
+      mwc-list-item:active, ha-list-item:active, ha-md-list-item:active { transform: scale(0.99); }
   # ── CARDS HEADING (sections + view header) + MUSHROOM TITLE ─────────────
   # Source: hui-heading-card.ts .content{color:var(--ha-heading-card-title-color,...)}
   #                              .content.subtitle{color:var(--ha-heading-card-subtitle-color,...)}
