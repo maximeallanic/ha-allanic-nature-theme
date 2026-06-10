@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.20 (fix liens ha-markdown invisibles — primary-color foncé sur fond dialogue)
+#  Version: 0.3.21 (fix footer quick-search ha-config-dashboard — color direct slotted content)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -428,6 +428,8 @@ allanic_nature_light:
     ha-config-dashboard$:
       .: |
         ha-tip { --secondary-text-color: #0A4D5C !important; }
+        ha-tip { color: #0A4D5C !important; }
+        ha-tip a { color: #0A4D5C !important; }
       ha-tip$: |
         .text, .prefix, a { color: #0A4D5C !important; }
     # mushroom-title-card global (root-yaml → toutes vues, pas seulement lovelace/maison — v0.3.19)
