@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.11 (heading subtitle lisible fond clair: ha-heading-card-subtitle-color foncé)
+#  Version: 0.3.12 (titres/sous-titres VUE Lovelace + en-têtes de section lisibles fond clair)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -317,10 +317,34 @@ allanic_nature_light:
   # qui est exactement celle entre hui-card et mushroom-title-card (correct).
   # Scope: mushroom-title-card$ ne matche PAS mushroom-template-card/light/etc. → teal préservé.
   card-mod-theme: allanic_nature_light
+  # ── VIEW HEADER (titre/sous-titre de vue Lovelace) ──────────
+  # Source: hui-view-header.ts — wraps n'importe quelle card (heading ou markdown text_only).
+  # hui-view-header a son propre shadow DOM. En scopant --primary/secondary-text-color
+  # sur :host via card-mod-view-yaml, la valeur cascade dans toute la sous-arborescence
+  # (heading card + markdown) SANS toucher les cartes teal des sections.
+  # Source heading: hui-heading-card.ts .content{color:var(--ha-heading-card-title-color,primary-text-color)}
+  # Source markdown: ha-markdown.ts hérite primary-text-color (pas de --markdown-text-color propre)
+  card-mod-view-yaml: |
+    hui-view-header$: |
+      :host {
+        --primary-text-color: #0D2E33 !important;
+        --secondary-text-color: #2C5F67 !important;
+        --ha-heading-card-title-color: #0D2E33 !important;
+        --ha-heading-card-subtitle-color: #2C5F67 !important;
+      }
+  # ── CARDS HEADING DE SECTION (Température…, Capteurs…) + MUSHROOM TITLE ─
+  # Source: hui-heading-card.ts .content{color:var(--ha-heading-card-title-color,...)}
+  #                              .content.subtitle{color:var(--ha-heading-card-subtitle-color,...)}
+  # card-mod-card-yaml: pierces shadow-root de chaque card matching le sélecteur.
+  # hui-heading-card$ couvre les heading cards de section sur fond clair.
+  # Scope: hui-heading-card$ ne matche PAS mushroom-template/light → teal préservé.
   card-mod-card-yaml: |
     mushroom-title-card$: |
       .title { color: #0D2E33 !important; }
       .subtitle { color: #2C5F67 !important; }
+    hui-heading-card$: |
+      .content { color: #0D2E33 !important; }
+      .content.subtitle { color: #2C5F67 !important; }
   # ── MUSHROOM / TOKENS RGB (override palette Allanic) ───────
   # Variant light : active states en teal foncé (#0D5D6D) pour contraste
   # sur fond clair ; teal cyan vif réservé aux accents.
