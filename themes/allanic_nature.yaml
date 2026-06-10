@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.10 (contraste texte fond-clair: mdc-fields, dialogues, heading, mushroom-title via card_mod)
+#  Version: 0.3.11 (heading subtitle lisible fond clair: ha-heading-card-subtitle-color foncé)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -304,7 +304,10 @@ allanic_nature_light:
   # Sur fond clair dialogue (#fff~#EDF4F5) → encres foncées WCAG AA+.
   mdc-dialog-content-ink-color: "#1A3A40"     # corps dialogue ~9:1 (WCAG AAA)
   mdc-dialog-heading-ink-color: "#0D2E33"     # titres dialogue ~11:1 (WCAG AAA)
-  ha-heading-card-title-color: "#0D2E33"      # heading natif (Bureau/Tapis) sur fond pâle
+  ha-heading-card-title-color: "#0D2E33"      # heading style=title sur fond pâle ~11:1 (AAA)
+  # Source: hui-heading-card.ts .content.subtitle{color:var(--ha-heading-card-subtitle-color,secondary-text-color)}
+  # secondary-text-color=#C8E8EC (invisible sur #EDF4F5) → foncer explicitement.
+  ha-heading-card-subtitle-color: "#2C5F67"   # heading style=subtitle sur fond pâle ~6:1 (WCAG AA)
   markdown-text-color: "#1A3A40"              # texte markdown sur fond clair
   # ── CARD_MOD — MUSHROOM TITLE CARD (surface #1 fond clair) ──
   # Spec Hestia: 27 mushroom-title-card utilisent var(--primary-text-color)=#E8F4F5
