@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.13 (ha-data-table group-header + ha-tip text + hui-view-header secondary-text fix)
+#  Version: 0.3.14 (sous-titre VUE natif via ha-heading-card-subtitle-color #0A4D5C — AA 8.5:1)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -307,7 +307,9 @@ allanic_nature_light:
   ha-heading-card-title-color: "#0D2E33"      # heading style=title sur fond pâle ~11:1 (AAA)
   # Source: hui-heading-card.ts .content.subtitle{color:var(--ha-heading-card-subtitle-color,secondary-text-color)}
   # secondary-text-color=#C8E8EC (invisible sur #EDF4F5) → foncer explicitement.
-  ha-heading-card-subtitle-color: "#2C5F67"   # heading style=subtitle sur fond pâle ~6:1 (WCAG AA)
+  # v0.3.14: #2C5F67→#0A4D5C (8.5:1 WCAG AAA vs #EDF4F5) — couvre VUE+SECTION (var partagée).
+  # Cascade: themes-mixin.ts applique sur document.documentElement → cascade jusqu'hui-view-header.
+  ha-heading-card-subtitle-color: "#0A4D5C"   # heading style=subtitle sur fond pâle ~8.5:1 (WCAG AAA)
   markdown-text-color: "#1A3A40"              # texte markdown sur fond clair
   # ── CARD_MOD — MUSHROOM TITLE CARD (surface #1 fond clair) ──
   # Spec Hestia: 27 mushroom-title-card utilisent var(--primary-text-color)=#E8F4F5
@@ -318,28 +320,18 @@ allanic_nature_light:
   # Scope: mushroom-title-card$ ne matche PAS mushroom-template-card/light/etc. → teal préservé.
   card-mod-theme: allanic_nature_light
   # ── VIEW HEADER (titre/sous-titre de vue Lovelace) ──────────
-  # Source: hui-view-header.ts — wraps n'importe quelle card (heading ou markdown text_only).
-  # hui-view-header a son propre shadow DOM. En scopant --primary/secondary-text-color
-  # sur :host via card-mod-view-yaml, la valeur cascade dans toute la sous-arborescence
-  # (heading card + markdown) SANS toucher les cartes teal des sections.
-  # Source heading: hui-heading-card.ts .content{color:var(--ha-heading-card-title-color,primary-text-color)}
-  # Source markdown: ha-markdown.ts hérite primary-text-color (pas de --markdown-text-color propre)
-  # ── VIEW HEADER: ajouter --secondary-text-color scopé (v0.3.13) ────────
-  # Source: hui-heading-card.ts .content.subtitle{color:var(--ha-heading-card-subtitle-color,secondary-text-color)}
-  # La valeur de fallback secondary-text-color=#C8E8EC (near-white) → invisible sur fond clair.
-  # v0.3.12 ne ciblait que --primary-text-color; le sous-titre de vue USE secondary-text-color.
-  # Fix: aussi scoper --secondary-text-color=#2C5F67 sur :host de hui-view-header.
+  # Source: hui-view-header.ts + themes-mixin.ts (HA frontend dev HEAD).
+  # Le thème global est appliqué sur document.documentElement (themes-mixin.ts L.140, main=true).
+  # hui-view-header EST descendant de hui-view-container (dom chain: container→hui-view(ReactiveEl,
+  # no shadow)→hui-sections-view→shadow→hui-view-header). Les CSS vars cascadent nativement.
+  # v0.3.14: RETIRE card-mod-view-yaml hui-view-header$ (sélecteur v0.3.12/v0.3.13, non-nécessaire).
+  # Mécanisme natif suffit : ha-heading-card-subtitle-color=#0A4D5C cascade via documentElement.
+  # ⚠ Card-mod-card-yaml hui-heading-card$ ci-dessous couvre aussi le view-header heading-card.
+  # .imported-card-header conservé (edit-mode overlay, inoffensif en prod) :
   card-mod-view-yaml: |
-    hui-view-header$: |
-      :host {
-        --primary-text-color: #0D2E33 !important;
-        --secondary-text-color: #2C5F67 !important;
-        --ha-heading-card-title-color: #0D2E33 !important;
-        --ha-heading-card-subtitle-color: #2C5F67 !important;
-      }
     .: |
       .imported-card-header .title { color: #0D2E33 !important; }
-      .imported-card-header .subtitle { color: #2C5F67 !important; }
+      .imported-card-header .subtitle { color: #0A4D5C !important; }
   # ── GROUP HEADERS + HA-TIP TEXT (ha-data-table + ha-tip) ──────────────
   # Source: ha-data-table.ts .group-header{background-color:var(--primary-background-color)}
   #   → fond de groupe = fond de page #EDF4F5 = invisible; texte hérité (#E8F4F5 near-white).
@@ -354,19 +346,20 @@ allanic_nature_light:
     ha-tip$: |
       .text { color: #2C5F67 !important; }
       .prefix { color: #0D2E33 !important; }
-  # ── CARDS HEADING DE SECTION (Température…, Capteurs…) + MUSHROOM TITLE ─
+  # ── CARDS HEADING (sections + view header) + MUSHROOM TITLE ─────────────
   # Source: hui-heading-card.ts .content{color:var(--ha-heading-card-title-color,...)}
   #                              .content.subtitle{color:var(--ha-heading-card-subtitle-color,...)}
   # card-mod-card-yaml: pierces shadow-root de chaque card matching le sélecteur.
-  # hui-heading-card$ couvre les heading cards de section sur fond clair.
+  # hui-heading-card$ couvre TOUTES les heading cards (sections + view header) sur fond clair.
   # Scope: hui-heading-card$ ne matche PAS mushroom-template/light → teal préservé.
+  # .content.subtitle : #2C5F67→#0A4D5C (cohérent avec ha-heading-card-subtitle-color natif, 8.5:1).
   card-mod-card-yaml: |
     mushroom-title-card$: |
       .title { color: #0D2E33 !important; }
-      .subtitle { color: #2C5F67 !important; }
+      .subtitle { color: #0A4D5C !important; }
     hui-heading-card$: |
       .content { color: #0D2E33 !important; }
-      .content.subtitle { color: #2C5F67 !important; }
+      .content.subtitle { color: #0A4D5C !important; }
   # ── MUSHROOM / TOKENS RGB (override palette Allanic) ───────
   # Variant light : active states en teal foncé (#0D5D6D) pour contraste
   # sur fond clair ; teal cyan vif réservé aux accents.
