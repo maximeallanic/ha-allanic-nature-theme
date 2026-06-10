@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.12 (titres/sous-titres VUE Lovelace + en-têtes de section lisibles fond clair)
+#  Version: 0.3.13 (ha-data-table group-header + ha-tip text + hui-view-header secondary-text fix)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -324,6 +324,11 @@ allanic_nature_light:
   # (heading card + markdown) SANS toucher les cartes teal des sections.
   # Source heading: hui-heading-card.ts .content{color:var(--ha-heading-card-title-color,primary-text-color)}
   # Source markdown: ha-markdown.ts hérite primary-text-color (pas de --markdown-text-color propre)
+  # ── VIEW HEADER: ajouter --secondary-text-color scopé (v0.3.13) ────────
+  # Source: hui-heading-card.ts .content.subtitle{color:var(--ha-heading-card-subtitle-color,secondary-text-color)}
+  # La valeur de fallback secondary-text-color=#C8E8EC (near-white) → invisible sur fond clair.
+  # v0.3.12 ne ciblait que --primary-text-color; le sous-titre de vue USE secondary-text-color.
+  # Fix: aussi scoper --secondary-text-color=#2C5F67 sur :host de hui-view-header.
   card-mod-view-yaml: |
     hui-view-header$: |
       :host {
@@ -332,6 +337,23 @@ allanic_nature_light:
         --ha-heading-card-title-color: #0D2E33 !important;
         --ha-heading-card-subtitle-color: #2C5F67 !important;
       }
+    .: |
+      .imported-card-header .title { color: #0D2E33 !important; }
+      .imported-card-header .subtitle { color: #2C5F67 !important; }
+  # ── GROUP HEADERS + HA-TIP TEXT (ha-data-table + ha-tip) ──────────────
+  # Source: ha-data-table.ts .group-header{background-color:var(--primary-background-color)}
+  #   → fond de groupe = fond de page #EDF4F5 = invisible; texte hérité (#E8F4F5 near-white).
+  # Source: ha-tip.ts .text{color:var(--secondary-text-color)} = #C8E8EC near-white.
+  # card-mod-root-yaml cible ces éléments dans toute l'app (traversal depuis home-assistant).
+  card-mod-root-yaml: |
+    ha-data-table$: |
+      .group-header {
+        background-color: transparent !important;
+        color: #0D2E33 !important;
+      }
+    ha-tip$: |
+      .text { color: #2C5F67 !important; }
+      .prefix { color: #0D2E33 !important; }
   # ── CARDS HEADING DE SECTION (Température…, Capteurs…) + MUSHROOM TITLE ─
   # Source: hui-heading-card.ts .content{color:var(--ha-heading-card-title-color,...)}
   #                              .content.subtitle{color:var(--ha-heading-card-subtitle-color,...)}
