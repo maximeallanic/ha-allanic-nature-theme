@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.21 (fix footer quick-search ha-config-dashboard — color direct slotted content)
+#  Version: 0.3.22 (mushroom-title-card$ migré card-mod-view-yaml — scope correct toutes vues)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -409,6 +409,11 @@ allanic_nature_light:
     .: |
       .imported-card-header .title { color: #0D2E33 !important; }
       .imported-card-header .subtitle { color: #08363A !important; }
+    # mushroom-title-card global toutes vues (v0.3.22: seul scope qui perce depuis hui-view)
+    # card-mod-root-yaml/card-yaml n'atteignent pas les views sans card_mod par-card → morts.
+    mushroom-title-card$: |
+      .title { color: #0D2E33 !important; }
+      .subtitle { color: #0A4D5C !important; }
   # ── GROUP HEADERS + HA-TIP TEXT (ha-data-table + ha-tip) ──────────────
   # Source: ha-data-table.ts .group-header{background-color:var(--primary-background-color)}
   #   → fond de groupe = fond de page #EDF4F5 = invisible; texte hérité (#E8F4F5 near-white).
@@ -432,13 +437,6 @@ allanic_nature_light:
         ha-tip a { color: #0A4D5C !important; }
       ha-tip$: |
         .text, .prefix, a { color: #0A4D5C !important; }
-    # mushroom-title-card global (root-yaml → toutes vues, pas seulement lovelace/maison — v0.3.19)
-    # Double vecteur: card-mod-card-yaml (ci-dessous) + root-yaml (ici) pour maximal reach.
-    # .title lit --primary-text-color; .subtitle lit --secondary-text-color=#C8E8EC → pale.
-    # color !important direct court-circuite les CSS vars, peu importe leur source.
-    mushroom-title-card$: |
-      .title { color: #0D2E33 !important; }
-      .subtitle { color: #0A4D5C !important; }
     # ha-markdown liens invisibles: même fix que dark — dialogues foncés même en thème clair
     ha-markdown$: |
       a { color: #4FD0E0 !important; }
@@ -463,9 +461,6 @@ allanic_nature_light:
   # Scope: hui-heading-card$ ne matche PAS mushroom-template/light → teal préservé.
   # .content.subtitle : #2C5F67→#0A4D5C (cohérent avec ha-heading-card-subtitle-color natif, 8.5:1).
   card-mod-card-yaml: |
-    mushroom-title-card$: |
-      .title { color: #0D2E33 !important; }
-      .subtitle { color: #0A4D5C !important; }
     hui-heading-card$: |
       .content { color: #0D2E33 !important; }
       .content.subtitle { color: #0A4D5C !important; }
