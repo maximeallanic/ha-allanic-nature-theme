@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.28 (FIX-A+B: chaine shadow explicite home-assistant-main vers ha-panel-config pour automation headers + ha-tip)
+#  Version: 0.3.29 (FIX-A+B: suppression hops parasites ha-drawer/ha-panel-config$/ha-config-automation$ — chaine shadow correcte home-assistant-main$>ha-automation-editor$>manual-automation-editor$)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -464,12 +464,12 @@ allanic_nature_light:
           --primary-text-color: #E8F4F5 !important;
           --secondary-text-color: #C8E8EC !important;
         }
-    # v0.3.28 FIX-A+B: chaine shadow EXPLICITE depuis home-assistant-main.
-    # Approches root-level (v0.3.26/v0.3.27) ne traversent PAS les shadows imbriques.
-    # manual-automation-editor vit 5 niveaux sous home-assistant => single-dollar root insuffisant.
-    # card-mod: chaque cle avec suffixe $ = pierce shadow de l'element selectionne au niveau courant.
-    # FIX-A: en-tetes 'Quand'/'Et si'/'Alors faire' => manual-automation-editor .header .name/.small
-    # FIX-B: ha-tip footer /config/dashboard => ha-config-dashboard => ha-tip (jamais atteint root-level)
+    # v0.3.29 FIX-A+B: chaine shadow CORRIGEE — hops parasites supprimes.
+    # v0.3.28 FAIL: ha-drawer/ha-panel-config$/ha-config-automation$ ne creent PAS de shadowRoot
+    #   (enfants en light-DOM dans le shadow home-assistant-main) => pierce $ casse => en-tetes pales.
+    # ANCETRES SHADOW REELS (js_eval mesure): manual-automation-editor > ha-automation-editor > home-assistant-main
+    # FIX-A: chaine directe home-assistant-main$>ha-automation-editor$>manual-automation-editor$
+    # FIX-B: ha-config-dashboard$ directement sous home-assistant-main$ (hypothese best-effort, Hestia verifie)
     home-assistant-main$:
       .: |
         ha-icon-button, ha-button, mwc-button, mwc-icon-button,
@@ -479,15 +479,13 @@ allanic_nature_light:
         ha-icon-button:active, mwc-icon-button:active { transform: scale(0.94); }
         mwc-button:active, ha-button:active { transform: scale(0.98); }
         mwc-list-item:active, ha-list-item:active, ha-md-list-item:active { transform: scale(0.99); }
-      ha-drawer ha-panel-config$:
-        ha-config-automation$:
-          ha-automation-editor$:
-            manual-automation-editor$: |
-              .header .name { color: #0D2E33 !important; }
-              .header .small { color: #0A4D5C !important; }
-        ha-config-dashboard$: |
-          ha-tip { color: #0A4D5C !important; }
-          ha-tip a { color: #0A4D5C !important; }
+      ha-automation-editor$:
+        manual-automation-editor$: |
+          .header .name { color: #0D2E33 !important; }
+          .header .small { color: #0A4D5C !important; }
+      ha-config-dashboard$: |
+        ha-tip { color: #0A4D5C !important; }
+        ha-tip a { color: #0A4D5C !important; }
   # ── CARDS HEADING (sections + view header) + MUSHROOM TITLE ─────────────
   # Source: hui-heading-card.ts .content{color:var(--ha-heading-card-title-color,...)}
   #                              .content.subtitle{color:var(--ha-heading-card-subtitle-color,...)}
