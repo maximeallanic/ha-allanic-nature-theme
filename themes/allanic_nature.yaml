@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.25 (FA-1 mush-title-color native vars + ha-automation-editor$ admin fix)
+#  Version: 0.3.26 (admin headers color-direct-leaf: manual-automation-editor$ .header .name)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -471,20 +471,22 @@ allanic_nature_light:
         --primary-text-color: #E8F4F5 !important;
         --secondary-text-color: #C8E8EC !important;
       }
-    # ha-automation-editor$ : cible les en-têtes 'Quand'/'Puis effectuer' sur fond clair (v0.3.25)
-    # ha-automation-editor est un sub-panel de ha-panel-config, mais HA re-applique inline styles dessus.
-    # Solution: cible ha-automation-editor$ directement (card-mod root traverse via ha-panel-config).
-    # PROTECTION: ha-card reset identique — les triggers/conditions/actions avec bg foncé conservent
-    # le texte clair.
-    ha-automation-editor$: |
-      :host {
-        --primary-text-color: #0D2E33 !important;
-        --secondary-text-color: #0A4D5C !important;
-      }
-      ha-card {
-        --primary-text-color: #E8F4F5 !important;
-        --secondary-text-color: #C8E8EC !important;
-      }
+    # ha-automation-editor$ : en-têtes 'Quand'/'Conditions'/'Puis effectuer' (v0.3.25→v0.3.26)
+    # v0.3.25: :host{vars} INOPÉRANT (HA inline style override). Leçon FA-1: color DIRECT sur feuille.
+    # Source HA frontend (VÉRIFIÉ): ha-automation-editor → manual-automation-editor (pour auto manuelles)
+    # Template: <div class="header"><h2 class="name">…</h2></div>. h2.name n'a PAS de color propre
+    # → hérite du contexte. Direct color !important court-circuite toute résolution var héritée.
+    # HA ne pose pas color (seulement --primary-text-color) en inline → author !important bat tout.
+    # PROTECTION: ha-card reset dans .:  (triggers/conditions/actions bg foncé = texte clair conservé).
+    ha-automation-editor$:
+      .: |
+        ha-card {
+          --primary-text-color: #E8F4F5 !important;
+          --secondary-text-color: #C8E8EC !important;
+        }
+      manual-automation-editor$: |
+        .header .name { color: #0D2E33 !important; }
+        .header .small { color: #0A4D5C !important; }
   # ── CARDS HEADING (sections + view header) + MUSHROOM TITLE ─────────────
   # Source: hui-heading-card.ts .content{color:var(--ha-heading-card-title-color,...)}
   #                              .content.subtitle{color:var(--ha-heading-card-subtitle-color,...)}
