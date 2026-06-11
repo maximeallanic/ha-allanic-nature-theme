@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.26 (admin headers color-direct-leaf: manual-automation-editor$ .header .name)
+#  Version: 0.3.27 (FIX-A: manual-automation-editor$ au niveau racine card-mod-root — double-$ imbriqué cassé)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -471,8 +471,10 @@ allanic_nature_light:
         --primary-text-color: #E8F4F5 !important;
         --secondary-text-color: #C8E8EC !important;
       }
-    # ha-automation-editor$ : en-têtes 'Quand'/'Conditions'/'Puis effectuer' (v0.3.25→v0.3.26)
+    # ha-automation-editor$ : en-têtes 'Quand'/'Conditions'/'Puis effectuer' (v0.3.25→v0.3.27)
     # v0.3.25: :host{vars} INOPÉRANT (HA inline style override). Leçon FA-1: color DIRECT sur feuille.
+    # v0.3.26: manual-automation-editor$ IMBRIQUÉ sous ha-automation-editor$ → double-$ non supporté.
+    # v0.3.27: manual-automation-editor$ sorti au niveau racine (un seul $ = traversal correct).
     # Source HA frontend (VÉRIFIÉ): ha-automation-editor → manual-automation-editor (pour auto manuelles)
     # Template: <div class="header"><h2 class="name">…</h2></div>. h2.name n'a PAS de color propre
     # → hérite du contexte. Direct color !important court-circuite toute résolution var héritée.
@@ -484,9 +486,11 @@ allanic_nature_light:
           --primary-text-color: #E8F4F5 !important;
           --secondary-text-color: #C8E8EC !important;
         }
-      manual-automation-editor$: |
-        .header .name { color: #0D2E33 !important; }
-        .header .small { color: #0A4D5C !important; }
+    # v0.3.27 FIX-A: manuel-automation-editor$ au niveau racine — double-$ imbriqué cassé (v0.3.26).
+    # card-mod-root traverse depuis home-assistant ; un seul $ suffit pour atteindre le shadow.
+    manual-automation-editor$: |
+      .header .name { color: #0D2E33 !important; }
+      .header .small { color: #0A4D5C !important; }
   # ── CARDS HEADING (sections + view header) + MUSHROOM TITLE ─────────────
   # Source: hui-heading-card.ts .content{color:var(--ha-heading-card-title-color,...)}
   #                              .content.subtitle{color:var(--ha-heading-card-subtitle-color,...)}
