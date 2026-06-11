@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.23 (CSS var override scopé: mushroom :host vars + admin ha-panel-config foncé + protection ha-card)
+#  Version: 0.3.24 (fix mushroom double-$ + ha-panel-config :host ; root causes RC-1/RC-2 résolus)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -409,15 +409,16 @@ allanic_nature_light:
     .: |
       .imported-card-header .title { color: #0D2E33 !important; }
       .imported-card-header .subtitle { color: #08363A !important; }
-    # mushroom-title-card global toutes vues (v0.3.22 scope, v0.3.23 mécanisme corrigé)
-    # v0.3.22: .title{color} ne perce pas le shadow imbriqué mushroom→ha-card→ha-card-content.
-    # v0.3.23: :host{--vars} cascade à travers TOUS les shadow DOM imbriqués → correction réelle.
-    # (même pattern que hui-view-header$ :host{vars} L.402-408 — éprouvé)
-    mushroom-title-card$: |
-      :host {
-        --primary-text-color: #0D2E33 !important;
-        --secondary-text-color: #0A4D5C !important;
-      }
+    # RC-1 FIX (v0.3.24): mushroom-title-card EST dans le shadow de hui-card (pas shadow direct vue).
+    # card-mod-view-yaml element$ ne cherche qu'au 1er niveau shadow — mushroom-title-card$ était MORT.
+    # Solution: hui-card$ (shadow direct vue ✓) → mushroom-title-card$ (shadow dans hui-card ✓) = double $.
+    # Source mushroom theme.ts: --title-color: var(--mush-title-color, var(--primary-text-color))
+    # .title lit var(--title-color) → chain vars. Direct color !important bat toute résolution var.
+    # .subtitle lit var(--subtitle-color) → var(--mush-subtitle-color, var(--secondary-text-color)).
+    hui-card$:
+      mushroom-title-card$: |
+        .title { color: #0D2E33 !important; }
+        .subtitle { color: #0A4D5C !important; }
   # ── GROUP HEADERS + HA-TIP TEXT (ha-data-table + ha-tip) ──────────────
   # Source: ha-data-table.ts .group-header{background-color:var(--primary-background-color)}
   #   → fond de groupe = fond de page #EDF4F5 = invisible; texte hérité (#E8F4F5 near-white).
@@ -457,16 +458,15 @@ allanic_nature_light:
       ha-icon-button:active, mwc-icon-button:active { transform: scale(0.94); }
       mwc-button:active, ha-button:active { transform: scale(0.98); }
       mwc-list-item:active, ha-list-item:active, ha-md-list-item:active { transform: scale(0.99); }
-      ha-panel-config {
+    # RC-2 FIX (v0.3.24): ha-panel-config est dans shadow de partial-panel-resolver, PAS home-assistant-main.
+    # home-assistant-main$ ha-panel-config { vars } = mauvais scope → règle ne matchait rien → DEAD.
+    # Solution: ha-panel-config$ existe déjà (card-mod root traverse l'atteint) → :host{vars !important}
+    # :host dans le shadow de ha-panel-config cible le host → Author !important > HA inline style normal.
+    ha-panel-config$: |
+      :host {
         --primary-text-color: #0D2E33 !important;
         --secondary-text-color: #0A4D5C !important;
       }
-    # PROTECTION cartes foncées dans admin (v0.3.23): ré-asserter texte clair sur ha-card
-    # ha-panel-config hérite text vars foncés (ci-dessus) → ha-card bg foncé serait foncé-sur-foncé
-    # → reset #E8F4F5 sur ha-card pour que texte reste blanc sur bg foncé
-    # ⚠️ Note amendment: wrappers NON-ha-card (ha-automation-row etc.) non couverts ici.
-    # Si régression détectée (Hestia js_eval) → extension ciblée en v0.3.24.
-    ha-panel-config$: |
       ha-card {
         --primary-text-color: #E8F4F5 !important;
         --secondary-text-color: #C8E8EC !important;
