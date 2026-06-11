@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.27 (FIX-A: manual-automation-editor$ au niveau racine card-mod-root — double-$ imbriqué cassé)
+#  Version: 0.3.28 (FIX-A+B: chaine shadow explicite home-assistant-main vers ha-panel-config pour automation headers + ha-tip)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -437,13 +437,6 @@ allanic_nature_light:
     ha-tip$: |
       .text { color: #0A4D5C !important; }
       .prefix { color: #0D2E33 !important; }
-    ha-config-dashboard$:
-      .: |
-        ha-tip { --secondary-text-color: #0A4D5C !important; }
-        ha-tip { color: #0A4D5C !important; }
-        ha-tip a { color: #0A4D5C !important; }
-      ha-tip$: |
-        .text, .prefix, a { color: #0A4D5C !important; }
     # ha-markdown liens invisibles: même fix que dark — dialogues foncés même en thème clair
     ha-markdown$: |
       a { color: #4FD0E0 !important; }
@@ -452,16 +445,8 @@ allanic_nature_light:
         transition: background-color 180ms ease, color 180ms ease, transform 180ms ease !important;
       }
       ha-list-item-button:active { transform: scale(0.98); }
-    home-assistant-main$: |
-      ha-icon-button, ha-button, mwc-button, mwc-icon-button,
-      mwc-list-item, ha-list-item, ha-md-list-item {
-        transition: background-color 180ms ease, color 180ms ease, transform 180ms ease !important;
-      }
-      ha-icon-button:active, mwc-icon-button:active { transform: scale(0.94); }
-      mwc-button:active, ha-button:active { transform: scale(0.98); }
-      mwc-list-item:active, ha-list-item:active, ha-md-list-item:active { transform: scale(0.99); }
-    # ha-panel-config$ :host{dark} → cascade admin panel (v0.3.24)
-    # MAIS: ha-automation-editor + sub-panels re-reçoivent inline styles HA → on les cible séparément
+    # ha-panel-config$ :host vars, cascade admin panel (v0.3.24). Root-level FONCTIONNE.
+    # PROTECTION: ha-card reset = triggers/conditions/actions fond fonce = texte clair (invariant).
     ha-panel-config$: |
       :host {
         --primary-text-color: #0D2E33 !important;
@@ -471,26 +456,38 @@ allanic_nature_light:
         --primary-text-color: #E8F4F5 !important;
         --secondary-text-color: #C8E8EC !important;
       }
-    # ha-automation-editor$ : en-têtes 'Quand'/'Conditions'/'Puis effectuer' (v0.3.25→v0.3.27)
-    # v0.3.25: :host{vars} INOPÉRANT (HA inline style override). Leçon FA-1: color DIRECT sur feuille.
-    # v0.3.26: manual-automation-editor$ IMBRIQUÉ sous ha-automation-editor$ → double-$ non supporté.
-    # v0.3.27: manual-automation-editor$ sorti au niveau racine (un seul $ = traversal correct).
-    # Source HA frontend (VÉRIFIÉ): ha-automation-editor → manual-automation-editor (pour auto manuelles)
-    # Template: <div class="header"><h2 class="name">…</h2></div>. h2.name n'a PAS de color propre
-    # → hérite du contexte. Direct color !important court-circuite toute résolution var héritée.
-    # HA ne pose pas color (seulement --primary-text-color) en inline → author !important bat tout.
-    # PROTECTION: ha-card reset dans .:  (triggers/conditions/actions bg foncé = texte clair conservé).
+    # ha-automation-editor$ : ha-card reset, fond fonce = texte clair (v0.3.25). Root-level FONCTIONNE.
+    # PROTECTION invariant: ligne 'A 7:00' DOIT rester claire, pas de dark-on-dark.
     ha-automation-editor$:
       .: |
         ha-card {
           --primary-text-color: #E8F4F5 !important;
           --secondary-text-color: #C8E8EC !important;
         }
-    # v0.3.27 FIX-A: manuel-automation-editor$ au niveau racine — double-$ imbriqué cassé (v0.3.26).
-    # card-mod-root traverse depuis home-assistant ; un seul $ suffit pour atteindre le shadow.
-    manual-automation-editor$: |
-      .header .name { color: #0D2E33 !important; }
-      .header .small { color: #0A4D5C !important; }
+    # v0.3.28 FIX-A+B: chaine shadow EXPLICITE depuis home-assistant-main.
+    # Approches root-level (v0.3.26/v0.3.27) ne traversent PAS les shadows imbriques.
+    # manual-automation-editor vit 5 niveaux sous home-assistant => single-dollar root insuffisant.
+    # card-mod: chaque cle avec suffixe $ = pierce shadow de l'element selectionne au niveau courant.
+    # FIX-A: en-tetes 'Quand'/'Et si'/'Alors faire' => manual-automation-editor .header .name/.small
+    # FIX-B: ha-tip footer /config/dashboard => ha-config-dashboard => ha-tip (jamais atteint root-level)
+    home-assistant-main$:
+      .: |
+        ha-icon-button, ha-button, mwc-button, mwc-icon-button,
+        mwc-list-item, ha-list-item, ha-md-list-item {
+          transition: background-color 180ms ease, color 180ms ease, transform 180ms ease !important;
+        }
+        ha-icon-button:active, mwc-icon-button:active { transform: scale(0.94); }
+        mwc-button:active, ha-button:active { transform: scale(0.98); }
+        mwc-list-item:active, ha-list-item:active, ha-md-list-item:active { transform: scale(0.99); }
+      ha-drawer ha-panel-config$:
+        ha-config-automation$:
+          ha-automation-editor$:
+            manual-automation-editor$: |
+              .header .name { color: #0D2E33 !important; }
+              .header .small { color: #0A4D5C !important; }
+        ha-config-dashboard$: |
+          ha-tip { color: #0A4D5C !important; }
+          ha-tip a { color: #0A4D5C !important; }
   # ── CARDS HEADING (sections + view header) + MUSHROOM TITLE ─────────────
   # Source: hui-heading-card.ts .content{color:var(--ha-heading-card-title-color,...)}
   #                              .content.subtitle{color:var(--ha-heading-card-subtitle-color,...)}
