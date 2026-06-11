@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.24 (fix mushroom double-$ + ha-panel-config :host ; root causes RC-1/RC-2 résolus)
+#  Version: 0.3.25 (FA-1 mush-title-color native vars + ha-automation-editor$ admin fix)
 #  Auteur: Designer Bleuenn / Personas Studio
 #  DA: allanic.me — Teal profond #0D5D6D + nature organique
 #  Typo: Nunito Sans (Google Fonts, 1 seule famille)
@@ -261,6 +261,16 @@ allanic_nature_light:
   # #C8E8EC sur #0D5D6D = 7.7:1 (WCAG AA+), distinct de primary-text-color #E8F4F5 (9.1:1).
   # v0.3.7 avait posé #2C4A50 (dark) → dark sur dark = invisible (bug).
   secondary-text-color: "#C8E8EC"
+  # Mushroom title-card section headers (Lovelace views) — FA-1 native theme vars (v0.3.25)
+  # card-mod NE PEUT PAS atteindre mushroom-title-card shadow (4 échecs card-mod v0.3.20→v0.3.24).
+  # Source: piitaya/lovelace-mushroom theme.ts (VÉRIFIÉ):
+  #   --title-color: var(--mush-title-color, var(--primary-text-color))
+  #   --subtitle-color: var(--mush-subtitle-color, var(--secondary-text-color))
+  # Exclusivité CONFIRMÉE: --mush-title-color/--mush-subtitle-color utilisés UNIQUEMENT dans
+  # theme.ts (déclaration) + title-card.ts (usage) — aucun autre card mushroom. SAFE.
+  # Ces vars HA cascadent naturellement via CSS custom properties (pas de card-mod).
+  mush-title-color: "#0D2E33"
+  mush-subtitle-color: "#0A4D5C"
   disabled-text-color: "#8AA8AC"
   text-primary-color: "#E8F4F5"
 
@@ -409,16 +419,8 @@ allanic_nature_light:
     .: |
       .imported-card-header .title { color: #0D2E33 !important; }
       .imported-card-header .subtitle { color: #08363A !important; }
-    # RC-1 FIX (v0.3.24): mushroom-title-card EST dans le shadow de hui-card (pas shadow direct vue).
-    # card-mod-view-yaml element$ ne cherche qu'au 1er niveau shadow — mushroom-title-card$ était MORT.
-    # Solution: hui-card$ (shadow direct vue ✓) → mushroom-title-card$ (shadow dans hui-card ✓) = double $.
-    # Source mushroom theme.ts: --title-color: var(--mush-title-color, var(--primary-text-color))
-    # .title lit var(--title-color) → chain vars. Direct color !important bat toute résolution var.
-    # .subtitle lit var(--subtitle-color) → var(--mush-subtitle-color, var(--secondary-text-color)).
-    hui-card$:
-      mushroom-title-card$: |
-        .title { color: #0D2E33 !important; }
-        .subtitle { color: #0A4D5C !important; }
+    # Mushroom title-card: RÉSOLU VIA native theme vars mush-title-color/mush-subtitle-color (v0.3.25)
+    # card-mod ne peut PAS atteindre mushroom shadow (4 échecs RC-1) → fix pur theme vars (plus haut)
   # ── GROUP HEADERS + HA-TIP TEXT (ha-data-table + ha-tip) ──────────────
   # Source: ha-data-table.ts .group-header{background-color:var(--primary-background-color)}
   #   → fond de groupe = fond de page #EDF4F5 = invisible; texte hérité (#E8F4F5 near-white).
@@ -458,11 +460,23 @@ allanic_nature_light:
       ha-icon-button:active, mwc-icon-button:active { transform: scale(0.94); }
       mwc-button:active, ha-button:active { transform: scale(0.98); }
       mwc-list-item:active, ha-list-item:active, ha-md-list-item:active { transform: scale(0.99); }
-    # RC-2 FIX (v0.3.24): ha-panel-config est dans shadow de partial-panel-resolver, PAS home-assistant-main.
-    # home-assistant-main$ ha-panel-config { vars } = mauvais scope → règle ne matchait rien → DEAD.
-    # Solution: ha-panel-config$ existe déjà (card-mod root traverse l'atteint) → :host{vars !important}
-    # :host dans le shadow de ha-panel-config cible le host → Author !important > HA inline style normal.
+    # ha-panel-config$ :host{dark} → cascade admin panel (v0.3.24)
+    # MAIS: ha-automation-editor + sub-panels re-reçoivent inline styles HA → on les cible séparément
     ha-panel-config$: |
+      :host {
+        --primary-text-color: #0D2E33 !important;
+        --secondary-text-color: #0A4D5C !important;
+      }
+      ha-card {
+        --primary-text-color: #E8F4F5 !important;
+        --secondary-text-color: #C8E8EC !important;
+      }
+    # ha-automation-editor$ : cible les en-têtes 'Quand'/'Puis effectuer' sur fond clair (v0.3.25)
+    # ha-automation-editor est un sub-panel de ha-panel-config, mais HA re-applique inline styles dessus.
+    # Solution: cible ha-automation-editor$ directement (card-mod root traverse via ha-panel-config).
+    # PROTECTION: ha-card reset identique — les triggers/conditions/actions avec bg foncé conservent
+    # le texte clair.
+    ha-automation-editor$: |
       :host {
         --primary-text-color: #0D2E33 !important;
         --secondary-text-color: #0A4D5C !important;
