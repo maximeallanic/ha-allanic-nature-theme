@@ -1,129 +1,202 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #  ALLANIC NATURE — Thème Home Assistant
-#  Version: 0.3.29 (FIX-A+B: suppression hops parasites ha-drawer/ha-panel-config$/ha-config-automation$ — chaine shadow correcte home-assistant-main$>ha-automation-editor$>manual-automation-editor$)
-#  Auteur: Designer Bleuenn / Personas Studio
-#  DA: allanic.me — Teal profond #0D5D6D + nature organique
-#  Typo: Nunito Sans (Google Fonts, 1 seule famille)
-#  Cibles hardware: Kindle Fire 5th Gen — 1024×600 / WebView ~Chromium 70-80
-#  ──────────────────────────────────────────────────────────────────────────
-#  ⚠️ OPTIMISATIONS KINDLE FIRE
-#  - Pas de backdrop-filter, pas de blur, pas de gradients animés
-#  - CSS conservateur : pas de :has(), pas de color-mix(), pas de @property
-#  - Fonds SOLIDES (pas de rgba sur backgrounds principaux → évite compositing)
-#  - Ombres : 1 couche max, légères
-#  - Bordures cartes : 1.5px (hairlines 1px invisibles à 171ppi)
-#  - Animations : uniquement via HA, pas CSS media query pour dark/light switch
-#  - Nunito Sans chargé via resources (1 seule font)
+#  Version: 0.8.0 (CARTES TEAL PARTOUT — 100 % VARIABLES, AUCUN CARD-MOD)
+#   - Cartes teal #0D5D6D + texte clair + accents cyan #00B2C6 dans les 2 modes
+#     (tout le bloc "carte" est COMMUN). Seuls le FOND DE PAGE et le CHROME
+#     (sidebar, header, dividers, titres de section) changent selon le mode :
+#       • dark  = page quasi-noir, sidebar sombre, titres clairs
+#       • light = page claire #EDF4F5, sidebar claire, titres de section foncés
+#   - Aucun card-mod (inutile : cartes teal identiques dans les 2 modes).
+#   ⚠️ NOTE (mode light) : les data-table reprennent des couleurs de PAGE incompatibles
+#     avec le choix « cartes teal » (group-header = --primary-background-color + texte
+#     clair → illisible ; bordures de ligne = --divider-color clair). NON couvrable par
+#     card-mod 4.2.1 (type root = hui-root, absent des pages de config) ni par variable
+#     native → corrigé par le module www/allanic-data-table.js (frontend.extra_module_url).
+#   - Bascule du mode = browser_mod.set_theme dark: dark|light (push explicite
+#     par tablette, JAMAIS prefers-color-scheme — WebView Kindle).
+#  Auteur: Designer Bleuenn / Personas Studio — DA allanic.me (teal #0D5D6D / cyan #00B2C6)
+#  Typo: Nunito Sans · Cibles: Kindle Fire 5th Gen (WebView ~Chromium 70-80)
+#  ⚠️ Kindle : pas de blur/gradients animés, fonds solides, ombres légères.
 # ══════════════════════════════════════════════════════════════════════════════
 
-allanic_nature_dark:
-  # ── PALETTE ──
-  # Teal signature Allanic : #0D5D6D
-  # Cyan bio : #00B2C6
-  # Fond noir teinté : #0B1215
-  # Mood : forêt nocturne, bioluminescence sous-marine
-  # ─────────────────────────────────────────────────────────────────────────
-  # NOTA: Ce thème est appliqué via service call frontend.set_theme (HA automations)
-  # NE PAS reposer sur prefers-color-scheme CSS (non fiable sur WebView ancien)
+allanic_nature:
+  # ══════════════════════════════════════════════════════════════════════════
+  #  COMMUN — bloc CARTE (teal) + accents, identique dark ET light
+  # ══════════════════════════════════════════════════════════════════════════
+  primary-font-family: "'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
 
-  # ── COULEURS GLOBALES ──────────────────────────────────────
+  # ── TEXTE (clair, sur cartes teal) ─────────────────────────
+  primary-text-color: "#E8F4F5"
+  text-primary-color: "#FFFFFF"
+  secondary-text-color: "#C8E8EC"
+  disabled-text-color: "#5E9098"
+
+  # ── PALETTE ACCENTS ────────────────────────────────────────
   primary-color: "#00B2C6"
   accent-color: "#0D5D6D"
 
-  # ── FONDS (solides, pas de rgba — évite compositing sur GPU faible) ────
-  primary-background-color: "#0B1215"
-  secondary-background-color: "#0D1618"
-  lovelace-background: "#0B1215"
-
-  # ── CARDS ──────────────────────────────────────────────────
-  # Fond solide (pas rgba — performance Kindle Fire)
-  card-background-color: "#131D1F"
-  paper-card-background-color: "#131D1F"
-  paper-listbox-background-color: "#131D1F"
-  ha-card-background: "#131D1F"
+  # ── CARTES (teal plein, identiques dark/light) ─────────────
+  card-background-color: "#0D5D6D"
+  paper-card-background-color: "#0D5D6D"
+  paper-listbox-background-color: "#0D5D6D"
+  ha-card-background: "#0D5D6D"
   ha-card-border-radius: "12px"
-  # 1.5px minimum (hairline 1px invisible sur écran 171ppi)
-  ha-card-border-width: "1.5px"
-  ha-card-border-color: "#1C3338"
-  # Ombre simple (1 couche, pas de double shadow — perf)
-  ha-card-box-shadow: "0 2px 8px rgba(0, 0, 0, 0.50)"
+  ha-card-border-width: "0px"
+  ha-card-border-color: "#0A4D5C"
+  ha-card-box-shadow: "0 2px 8px rgba(0, 0, 0, 0.45)"
+  mdc-theme-surface: "#0D5D6D"
 
-  # ── HEADER ─────────────────────────────────────────────────
-  app-header-background-color: "#080F11"
-  app-header-text-color: "#D8EBEC"
-  app-header-selection-bar-color: "#00B2C6"
-
-  # ── SIDEBAR ────────────────────────────────────────────────
-  sidebar-background-color: "#0A1315"
-  sidebar-text-color: "#7AABB0"
-  sidebar-selected-background-color: "#132528"
-  sidebar-selected-text-color: "#00B2C6"
-  sidebar-icon-color: "#4A8088"
-  sidebar-selected-icon-color: "#00B2C6"
-
-  # ── TEXTE (contrastes renforcés pour 171ppi) ───────────────
-  primary-text-color: "#E8F4F5"
-  # near-white : lisible sur fond sombre (page bg #0B1215) + caret CodeMirror unfocused visible
-  secondary-text-color: "#E8F4F5"
-  disabled-text-color: "#2E4A4F"
-  text-primary-color: "#E8F4F5"
-
-  # ── DIVIDERS ───────────────────────────────────────────────
-  # Couleur solide, pas rgba pour visibilité sur bas pixel density
-  divider-color: "#1C3338"
-  light-primary-color: "#1A3A3E"
-
-  # ── ICONS ──────────────────────────────────────────────────
-  state-icon-color: "#4A8088"
+  # ── ICÔNES ─────────────────────────────────────────────────
+  state-icon-color: "#6FB5BD"
   state-icon-active-color: "#00B2C6"
   paper-item-icon-color: "#00B2C6"
   paper-item-icon-active-color: "#00B2C6"
+  app-header-selection-bar-color: "#00B2C6"
+  # Tile card : icône d'état INACTIF = --tile-icon-color ← --tile-color ← --state-inactive-color
+  # (confirmé via tile-card-style.ts). #B9D9DF était trop désaturé (lu comme gris) →
+  # teal clair franc, visible et coloré sur carte teal, sans toucher aux icônes actives.
+  state-inactive-color: "#7FCFD8"
 
-  # ── CONTRÔLES ──────────────────────────────────────────────
-  switch-checked-color: "#0D5D6D"
-  switch-unchecked-color: "#1A2E31"
+  # ── INTERRUPTEURS / SLIDERS ────────────────────────────────
+  switch-checked-color: "#00B2C6"
   switch-checked-button-color: "#00B2C6"
   switch-checked-track-color: "#1A5560"
-  slider-color: "#0D5D6D"
+  switch-unchecked-color: "#2A4A4F"
   paper-toggle-button-checked-button-color: "#00B2C6"
   paper-toggle-button-checked-bar-color: "#1A5560"
+  slider-color: "#00B2C6"
+  info-color: "#00B2C6"
 
-  # ── ÉTATS SÉMANTIQUES ──────────────────────────────────────
-  success-color: "#1B8A57"
+  # ── ÉTATS SÉMANTIQUES + ENERGY (vifs sur teal) ─────────────
+  success-color: "#1B9A60"
   warning-color: "#E89318"
-  error-color: "#D63C2B"
-  info-color: "#0D5D6D"
+  error-color: "#E0493A"
+  energy-grid-consumption-color: "#00B2C6"
+  energy-solar-color: "#E89318"
+  energy-battery-in-color: "#1B9A60"
 
   # ── BADGE ──────────────────────────────────────────────────
   label-badge-background-color: "#0D5D6D"
   label-badge-text-color: "#FFFFFF"
   label-badge-border-color: "#00B2C6"
 
-  # ── INPUTS ─────────────────────────────────────────────────
-  input-fill-color: "#132025"
+  # ── ASSIST-CHIP FILLED (ex. états d'alarme « Désactivée ») ──
+  # Fond par défaut = --primary-color (cyan vif) → texte clair peu contrasté.
+  # Teal = plus foncé et plus lisible. (N'affecte que les chips filled.)
+  ha-assist-chip-filled-container-color: "#0D5D6D"
+
+  # ── MARKDOWN / DIALOGUES (sur surface teal → encres claires) ──
+  markdown-text-color: "#E8F4F5"
+  markdown-link-color: "#4FD0E0"
+  markdown-code-background-color: "#16302E"
+  markdown-code-text-color: "#E8F4F5"
+  mdc-dialog-content-ink-color: "#E8F4F5"
+  mdc-dialog-heading-ink-color: "#E8F4F5"
+  ha-dialog-header-title-height: "auto"
+
+  # ── ONGLETS ────────────────────────────────────────────────
+  ha-tab-active-text-color: "#FFFFFF"
+  mdc-tab-text-label-color-default: "#E8F4F5"
+  # NB : l'onglet ACTIF (ha-tab) colore texte + soulignement avec --primary-color
+  # (cyan) en mode large, et une pastille assist-chip en mode étroit. Comme
+  # --primary-color est global, la pastille teal foncé choisie est appliquée par le
+  # module www/allanic-data-table.js (CSS ciblé dans le shadow de ha-tab), pas ici.
+
+  # ── TOOLTIP (foncé = lisible dans les 2 modes) ─────────────
+  ha-tooltip-background-color: "#162426"
+  ha-tooltip-text-color: "#E8F4F5"
+
+  # ── DROPDOWN / MENU (panneau teal, items hover/sélection) ──
+  ha-border-radius-md: "12px"
+  ha-color-on-neutral-normal: "#E8F4F5"
+  ha-color-border-neutral-quiet: "#0A4D5C"
+  ha-color-fill-neutral-normal-resting: "#0A1A1D"
+  ha-color-fill-neutral-normal-hover: "#0E2428"
+  ha-color-fill-neutral-normal-active: "#0A1A1D"
+  wa-color-neutral-fill-normal: "#14788C"
+  ha-color-fill-primary-quiet-resting: "#08363D"
+  ha-color-fill-primary-quiet-hover: "#0C4A54"
+
+  # ── BOUTONS (ha-button WebAwesome — brand / accent / danger / neutral) ──
+  # WebAwesome : filled=fill-normal+on-normal | plain/outlined=on-normal (fond transparent)
+  #              accent=fill-loud+on-loud. on-normal est PARTAGÉ filled+plain → doit être
+  #              clair (lisible en plain sur carte teal) → donc fill-normal doit être foncé.
+  # FILLED brand = fond teal foncé (distinct de la carte) + texte cyan clair
+  ha-color-fill-primary-normal-resting: "#0A4A56"
+  ha-color-fill-primary-normal-hover: "#0E5C6B"
+  ha-color-fill-primary-normal-active: "#083B45"
+  # texte filled/plain/outlined (= on-normal) : cyan clair (lisible sur carte teal)
+  ha-color-on-primary-normal: "#4FD0E0"
+  # ACCENT/loud = fond CYAN vif (ressort sur la carte teal) + texte foncé
+  ha-color-fill-primary-loud-resting: "#00B2C6"
+  ha-color-fill-primary-loud-hover: "#22BECF"
+  ha-color-fill-primary-loud-active: "#0098AB"
+  ha-color-on-primary-loud: "#06363D"
+  # plain/outlined quiet = cyan clair
+  ha-color-on-primary-quiet: "#4FD0E0"
+  ha-color-fill-primary-quiet-active: "#0F5260"
+  ha-color-primary-50: "#2A9DB0"
+  # DANGER filled
+  ha-color-fill-danger-normal-resting: "#D14334"
+  ha-color-fill-danger-normal-hover: "#E0493A"
+  ha-color-fill-danger-normal-active: "#B0301F"
+  ha-color-on-danger-normal: "#FFFFFF"
+  # NEUTRAL filled (fond foncé + texte clair)
+  ha-color-fill-neutral-loud-resting: "#0A1A1D"
+  ha-color-on-neutral-loud: "#E8F4F5"
+
+  # ── RIPPLE / STATE-LAYER ───────────────────────────────────
+  mdc-ripple-color: "#00B2C6"
+  mdc-ripple-hover-opacity: "0.08"
+  mdc-ripple-focus-opacity: "0.12"
+  mdc-ripple-press-opacity: "0.16"
+  ha-ripple-color: "#00B2C6"
+  ha-ripple-hover-opacity: "0.08"
+  ha-ripple-pressed-opacity: "0.16"
+  paper-item-focused-before-background: "#00B2C6"
+  paper-item-focused-before-opacity: "0.20"
+
+  # ── INPUTS (FONDU TOTAL : même teal que les cartes, sans bordure) ──
+  # Choix Maxime 2026-06-11 : les champs reprennent le fond des cartes #0D5D6D.
+  # Repérables seulement par le label + le soulignement au focus (look épuré).
+  input-fill-color: "#0D5D6D"
   input-ink-color: "#E8F4F5"
-  input-label-ink-color: "#7AABB0"
-  input-dropdown-bg-color: "#131D1F"
+  input-label-ink-color: "#9FD0D6"
+  input-dropdown-bg-color: "#0D5D6D"
+  mdc-text-field-ink-color: "#E8F4F5"
+  mdc-text-field-label-ink-color: "#9FD0D6"
+  mdc-text-field-fill-color: "#0D5D6D"
+  mdc-select-ink-color: "#E8F4F5"
+  mdc-select-label-ink-color: "#9FD0D6"
 
-  # ── ENERGY ─────────────────────────────────────────────────
-  energy-grid-consumption-color: "#00B2C6"
-  energy-solar-color: "#E89318"
-  energy-battery-in-color: "#1B8A57"
+  # ── DESIGN SYSTEM HA 2026 (tokens --ha-color-*) — MAPPING SOMBRE ──
+  # Le thème custom n'hérite PAS du bloc « dark » de HA → ces tokens restaient
+  # clairs (surfaces blanches, form-background neutral-95, textes foncés). Les
+  # composants modernes (ha-input, ha-select/ha-picker-field, ha-checkbox,
+  # sélecteur de cartes) les lisent → fonds blancs. On fournit le mapping sombre.
+  # Surfaces + textes du système 2026
+  ha-color-surface-default: "#0D2E33"
+  ha-color-surface-low: "#0A2429"
+  ha-color-surface-lower: "#08191D"
+  ha-color-on-surface-default: "#E8F4F5"
+  ha-color-text-primary: "#E8F4F5"
+  ha-color-text-secondary: "#9FD0D6"
+  ha-color-text-disabled: "#5E9098"
+  ha-color-text-link: "#4FD0E0"
+  # Fond des CHAMPS de formulaire : ha-input (texte) + ha-picker-field (select)
+  # FONDU TOTAL = teal des cartes (cf. bloc INPUTS). Hover/disabled = nuances teal
+  # très légères pour un minimum de feedback, sans rompre le fondu.
+  ha-color-form-background: "#0D5D6D"
+  ha-color-form-background-hover: "#0E5C6B"
+  ha-color-form-background-disabled: "#0A4D5C"
+  # CHECKBOX inactive (retombe sinon sur --wa-color-surface-raised = blanc)
+  ha-checkbox-background-color: "#122A30"
+  ha-checkbox-border-color: "#4A8088"
+  # ÉDITEUR DE CODE : gouttière (le fond principal = code-editor-background-color)
+  code-editor-gutter-color: "#06141A"
 
-  # ── TYPO (1 famille max — Nunito Sans, fallback système) ───
-  primary-font-family: "'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-
-
-  # ── DIALOGUE — CODE BLOCKS + TITRE (v0.3.16) ─────────────
-  # Source: ha-markdown.ts L99-101 (même fix que variante light).
-  # En variante dark, fond dialogue = card-background-color=#131D1F (sombre).
-  # Sans markdown-code-background-color → fond browser blanc → texte #E8F4F5 near-white = invisible.
-  markdown-code-background-color: "#1A3A40"   # fond code distinct 10.8:1 avec #E8F4F5
-  markdown-code-text-color: "#E8F4F5"         # texte code clair
-  # Source: ha-dialog-header.ts L73: hauteur fixe → long titre chevauche sous-titre.
-  ha-dialog-header-title-height: "auto"       # workaround structurel (même fix dark+light)
   # ── ÉDITEUR DE CODE (CodeMirror) ──────────────────────────
-  code-editor-background-color: "#0A1315"
+  code-editor-background-color: "#08181C"
   codemirror-keyword: "#5DD8F0"
   codemirror-string: "#7EC99A"
   codemirror-property: "#E8F4F5"
@@ -132,378 +205,100 @@ allanic_nature_dark:
   codemirror-atom: "#B09FD8"
   codemirror-meta: "#8AACB0"
   codemirror-tag: "#5DD8F0"
-  # ── MENU HOVER (paper-item legacy + mdc-ripple) ──────────
-  # Rend visible la surbrillance hover/focus dans les menus ⋮ et listes admin.
-  paper-item-focused-before-background: "#00B2C6"
-  paper-item-focused-before-opacity: "0.20"
-  mdc-ripple-color: "#00B2C6"
-  # ── ÉTATS INTERACTIFS (hover / focus / pressed) — CHROME GLOBAL ──────────
-  # 2-couleurs : state-layer teal #00B2C6 (cyan Allanic) sur tout composant interactif.
-  # Source MDC: --mdc-ripple-{hover,focus,press}-opacity pilotent le state-layer des
-  #   composants legacy (mwc-button, mwc-list-item ⋮, mwc-icon-button, ha-select).
-  #   Sans override = défauts MDC (0.04/0.12/0.12) → hover quasi-invisible. On les rend explicites,
-  #   pressed > hover (un cran plus marqué).
-  mdc-ripple-hover-opacity: "0.08"   # hover subtil
-  mdc-ripple-focus-opacity: "0.12"   # focus clavier
-  mdc-ripple-press-opacity: "0.16"   # pressed un cran plus marqué
-  # Source frontend HA: ha-ripple.ts (MD3) pilote le state-layer des composants MODERNES :
-  #   sidebar ha-list-item-button, ha-md-list-item (listes Réglages/dialogues), ha-button moderne.
-  #   --ha-ripple-color défaut hérite --primary-text-color (#E8F4F5 near-white → INVISIBLE).
-  #   On force teal #00B2C6 + opacités hover<pressed pour un feedback visible et cohérent.
-  ha-ripple-color: "#00B2C6"
-  ha-ripple-hover-opacity: "0.08"
-  ha-ripple-pressed-opacity: "0.16"
-  # ── ONGLETS (tabs, label inactif) ───────────────────────────
-  # Source: tab.styles.ts L6 `:host{color:var(--wa-color-neutral-on-quiet)}`
-  # ha-tab-group-tab: --wa-color-neutral-on-quiet = --wa-color-brand-on-quiet
-  #                 = --ha-tab-active-text-color || primary-color
-  # Sans fix: primary-color=#0D5D6D sur header bg #080F11 = low contrast (dark)
-  # Fix: forcer blanc → WCAG AAA sur les deux bgs header.
-  ha-tab-active-text-color: "#FFFFFF"
-  mdc-tab-text-label-color-default: "#E8F4F5"    # legacy mwc-tab (gardé inoffensif)
-  # ── DROPDOWN / MENU DÉROULANT ──────────────────────────────
-  # Source: dropdown.styles.ts (border-radius: var(--wa-border-radius-m)) +
-  #         wa.globals.ts (--wa-border-radius-m: var(--ha-border-radius-md)) +
-  #         color/wa.globals.ts (--wa-color-surface-border: var(--ha-color-border-neutral-quiet))
-  ha-border-radius-md: "12px"                    # aligne dropdown sur ha-card-border-radius
-  ha-color-border-neutral-quiet: "#1C3338"       # = ha-card-border-color dark
-  # ── ICÔNES MENU DÉROULANT ──────────────────────────────────
-  # Source: ha-dropdown-item.ts — #icon::slotted(*){color:var(--ha-color-on-neutral-normal)}
-  # Aligné sur primary-text-color (#E8F4F5) = même couleur que texte dropdown.
-  # Sûr en dark: neutral-fill dark bg (#neutral-10 = quasi-noir) → #E8F4F5 = 18:1 ✓
-  ha-color-on-neutral-normal: "#E8F4F5"          # icônes = même couleur que texte
-  # ── NEUTRAL FILL STATES (hover/active) — dark variant ───────────────────
-  # Source: ha-automation-row-event-chip.ts [variant=neutral] + ha-dropdown-item.ts
-  # fill-neutral-normal-resting = bg repos chips/items neutres (dark teal quasi-noir)
-  ha-color-fill-neutral-normal-resting: "#0A1315" # quasi-noir ; #E8F4F5 dessus = 18:1 WCAG AAA
-  ha-color-fill-neutral-normal-hover: "#0D1A1F"   # légèrement plus clair au hover
-  ha-color-fill-neutral-normal-active: "#0A1315"  # = resting (pressed = retour)
-  # ── MUSHROOM / TOKENS RGB (override palette Allanic) ───────
-  # Force les cards Mushroom et états light/vacuum à utiliser le cyan Allanic
-  # au lieu du teal Material par défaut (rgb(0,150,136)).
-  rgb-teal: "0, 178, 198"               # #00B2C6 cyan Allanic
+
+  # ── MUSHROOM / TOKENS RGB (cyan) ───────────────────────────
+  rgb-teal: "0, 178, 198"
+  mush-rgb-teal: "0, 178, 198"
   rgb-primary-color: "0, 178, 198"
   rgb-accent-color: "13, 93, 109"
   rgb-state-light-active: "0, 178, 198"
   rgb-state-vacuum-cleaning: "0, 178, 198"
-  mush-rgb-teal: "0, 178, 198"
   mush-rgb-primary: "0, 178, 198"
-  # ── TRANSITIONS GLOBALES + ÉTATS ACTIFS — CHROME GLOBAL (v0.3.17) ───────
-  # Equivalent dark de card-mod-root-yaml light (absent avant v0.3.17 → 0 transitions dark).
-  # Boutons/icônes: 180ms ease + scale active. Sidebar items: idem.
-  # ha-ripple-focus-opacity: non exposé en source ha-ripple.ts → non ajouté.
-  # ha-dropdown-item: pas de ripple/transitions dans source → non inclus.
-  card-mod-root-yaml: |
-    # ha-markdown liens invisibles: primary-color=#0D5D6D sur fond dialogue #0B282E = 2.07:1
-    # Diagnostic Hestia task_1095: --markdown-link-color non lu → fix color direct !important.
-    # #4FD0E0 cyan clair = 8.6:1 WCAG AAA sur #0B282E. (dark variant)
-    ha-markdown$: |
-      a { color: #4FD0E0 !important; }
-    ha-sidebar$: |
-      ha-list-item-button {
-        transition: background-color 180ms ease, color 180ms ease, transform 180ms ease !important;
-      }
-      ha-list-item-button:active { transform: scale(0.98); }
-    home-assistant-main$: |
-      ha-icon-button, ha-button, mwc-button, mwc-icon-button,
-      mwc-list-item, ha-list-item, ha-md-list-item {
-        transition: background-color 180ms ease, color 180ms ease, transform 180ms ease !important;
-      }
-      ha-icon-button:active, mwc-icon-button:active { transform: scale(0.94); }
-      mwc-button:active, ha-button:active { transform: scale(0.98); }
-      mwc-list-item:active, ha-list-item:active, ha-md-list-item:active { transform: scale(0.99); }
 
+  # ── CARD-MOD (ciblé, mode light uniquement) ────────────────
+  # Active card-mod pour le SEUL cas non couvrable par variable native : les
+  # ha-tip des Réglages, qui lisent --secondary-text-color (clair, pour cartes
+  # teal) et tombent donc clair-sur-clair sur la page claire. Le card-mod-root-yaml
+  # ciblé est défini uniquement dans modes.light (en dark le ha-tip est lisible).
+  card-mod-theme: allanic_nature
 
-# ══════════════════════════════════════════════════════════════════════════════
+  # ── CARD-MOD SIDEBAR : titre « Home Assistant » ────────────
+  # Le titre .title de la sidebar lit --primary-text-color (clair, pour les cartes
+  # teal) → clair sur sidebar claire en light = illisible. card-mod-sidebar injecte
+  # dans le shadow de ha-sidebar (testé OK). On mappe sur --mush-title-color, foncé
+  # en light / clair en dark → lisible dans les 2 modes. (card-mod atteint la
+  # sidebar ; il n'atteint PAS les pages de config → cf. module www/allanic-data-table.js.)
+  card-mod-sidebar: |
+    .title {
+      color: var(--mush-title-color, #0D2E33) !important;
+    }
 
-allanic_nature_light:
-  # ── PALETTE ──
-  # Teal signature Allanic : #0D5D6D
-  # Fond écru teinté : #EEF4F5
-  # Mood : clairière nordique, lumière filtrée
+  modes:
+    # ════════════════════════════════════════════════════════════════════════
+    dark:    # page quasi-noir, chrome sombre, titres clairs
+    # ════════════════════════════════════════════════════════════════════════
+      primary-background-color: "#0B1215"
+      secondary-background-color: "#0D1618"
+      lovelace-background: "#0B1215"
 
-  # ── COULEURS GLOBALES ──────────────────────────────────────
-  primary-color: "#0D5D6D"
-  accent-color: "#107084"
+      app-header-background-color: "#0A2E33"
+      app-header-text-color: "#E8F4F5"
 
-  # ── FONDS (solides) ────────────────────────────────────────
-  primary-background-color: "#EDF4F5"
-  secondary-background-color: "#DEE9EA"
-  lovelace-background: "#EDF4F5"
+      sidebar-background-color: "#0A1A1D"
+      sidebar-text-color: "#9FD0D6"
+      sidebar-icon-color: "#6FB5BD"
+      sidebar-selected-background-color: "#11343A"
+      sidebar-selected-text-color: "#00B2C6"
+      sidebar-selected-icon-color: "#00B2C6"
 
-  # ── CARDS ──────────────────────────────────────────────────
-  card-background-color: "#0D5D6D"
-  paper-card-background-color: "#0D5D6D"
-  paper-listbox-background-color: "#0D5D6D"
-  ha-card-background: "#0D5D6D"
-  ha-card-border-radius: "12px"
-  ha-card-border-width: "2px"
-  ha-card-border-color: "#0A4D5C"
-  # Ombre simple (contraste renforcé tablettes)
-  ha-card-box-shadow: "0 2px 8px rgba(0, 0, 0, 0.40)"
+      divider-color: "#1C4248"
+      light-primary-color: "#1A3A3E"
 
-  # ── HEADER ─────────────────────────────────────────────────
-  app-header-background-color: "#0D5D6D"
-  app-header-text-color: "#FFFFFF"
-  app-header-selection-bar-color: "#00B2C6"
+      mush-title-color: "#E8F4F5"
+      mush-subtitle-color: "#9FD4DC"
+      ha-heading-card-title-color: "#E8F4F5"
+      ha-heading-card-subtitle-color: "#C8E8EC"
 
-  # ── SIDEBAR ────────────────────────────────────────────────
-  sidebar-background-color: "#E6F2F3"
-  sidebar-text-color: "#2C5F67"
-  sidebar-selected-background-color: "#C8DDE0"
-  sidebar-selected-text-color: "#0D5D6D"
-  sidebar-icon-color: "#4A8088"
-  sidebar-selected-icon-color: "#0D5D6D"
+    # ════════════════════════════════════════════════════════════════════════
+    light:   # page claire, chrome clair, titres de section FONCÉS (cartes teal)
+    # ════════════════════════════════════════════════════════════════════════
+      primary-background-color: "#EDF4F5"
+      secondary-background-color: "#DEE9EA"
+      lovelace-background: "#EDF4F5"
 
-  # ── TEXTE (contrastes renforcés) ───────────────────────────
-  primary-text-color: "#E8F4F5"
-  # Surface réelle settings rows = paper-listbox-background-color=#0D5D6D (dark teal).
-  # #C8E8EC sur #0D5D6D = 7.7:1 (WCAG AA+), distinct de primary-text-color #E8F4F5 (9.1:1).
-  # v0.3.7 avait posé #2C4A50 (dark) → dark sur dark = invisible (bug).
-  secondary-text-color: "#C8E8EC"
-  # Mushroom title-card section headers (Lovelace views) — FA-1 native theme vars (v0.3.25)
-  # card-mod NE PEUT PAS atteindre mushroom-title-card shadow (4 échecs card-mod v0.3.20→v0.3.24).
-  # Source: piitaya/lovelace-mushroom theme.ts (VÉRIFIÉ):
-  #   --title-color: var(--mush-title-color, var(--primary-text-color))
-  #   --subtitle-color: var(--mush-subtitle-color, var(--secondary-text-color))
-  # Exclusivité CONFIRMÉE: --mush-title-color/--mush-subtitle-color utilisés UNIQUEMENT dans
-  # theme.ts (déclaration) + title-card.ts (usage) — aucun autre card mushroom. SAFE.
-  # Ces vars HA cascadent naturellement via CSS custom properties (pas de card-mod).
-  mush-title-color: "#0D2E33"
-  mush-subtitle-color: "#0A4D5C"
-  disabled-text-color: "#8AA8AC"
-  text-primary-color: "#E8F4F5"
+      app-header-background-color: "#0D5D6D"
+      app-header-text-color: "#FFFFFF"
 
-  # ── DIVIDERS (solide, visible) ─────────────────────────────
-  divider-color: "#B8D1D5"
-  light-primary-color: "#BDD4D8"
+      sidebar-background-color: "#E6F2F3"
+      sidebar-text-color: "#2C5F67"
+      sidebar-icon-color: "#4A8088"
+      sidebar-selected-background-color: "#C8DDE0"
+      sidebar-selected-text-color: "#0A4D5C"
+      sidebar-selected-icon-color: "#0A4D5C"
 
-  # ── ICONS ──────────────────────────────────────────────────
-  state-icon-color: "#4A8088"
-  state-icon-active-color: "#0D5D6D"
-  paper-item-icon-color: "#00B2C6"
-  paper-item-icon-active-color: "#0D5D6D"
+      divider-color: "#C5DADD"
+      light-primary-color: "#BDD4D8"
 
-  # ── CONTRÔLES ──────────────────────────────────────────────
-  switch-checked-color: "#0D5D6D"
-  switch-unchecked-color: "#A8C8CC"
-  switch-checked-button-color: "#0D5D6D"
-  switch-checked-track-color: "#5A9EA6"
-  slider-color: "#0D5D6D"
-  paper-toggle-button-checked-button-color: "#0D5D6D"
-  paper-toggle-button-checked-bar-color: "#5A9EA6"
+      # titres de SECTION/VUE (sur la page claire) → foncés = lisibles
+      mush-title-color: "#0D2E33"
+      mush-subtitle-color: "#0A4D5C"
+      ha-heading-card-title-color: "#0D2E33"
+      ha-heading-card-subtitle-color: "#0A4D5C"
 
-  # ── ÉTATS SÉMANTIQUES ──────────────────────────────────────
-  success-color: "#1B5E20"
-  warning-color: "#C25E00"
-  error-color: "#B71C1C"
-  info-color: "#0D5D6D"
-
-  # ── BADGE ──────────────────────────────────────────────────
-  label-badge-background-color: "#0D5D6D"
-  label-badge-text-color: "#FFFFFF"
-  label-badge-border-color: "#0D5D6D"
-
-  # ── INPUTS ─────────────────────────────────────────────────
-  input-fill-color: "#D8EAEC"
-  input-ink-color: "#111E20"
-  input-label-ink-color: "#2C5F67"
-  input-dropdown-bg-color: "#FFFFFF"
-  # ── INPUTS MDC (Material Design Components — champs, selects) ─
-  # Source: mdc-text-field/mdc-select stylesheeets (mwc components).
-  # Sur fond clair (dialogue bg ~#fff, #EDF4F5) → encres foncées.
-  mdc-text-field-ink-color: "#111E20"         # texte saisie ~15:1 sur fond clair (WCAG AAA)
-  mdc-text-field-label-ink-color: "#2C5F67"   # libellé champ ~6.8:1 (WCAG AA+)
-  mdc-text-field-fill-color: "#F2F8F9"        # fond champ teinté clair
-  mdc-select-ink-color: "#111E20"             # texte select ~15:1
-  mdc-select-label-ink-color: "#2C5F67"       # libellé select ~6.8:1
-
-  # ── ENERGY ─────────────────────────────────────────────────
-  energy-grid-consumption-color: "#0D5D6D"
-  energy-solar-color: "#C25E00"
-  energy-battery-in-color: "#1B5E20"
-
-  # ── TYPO ───────────────────────────────────────────────────
-  primary-font-family: "'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-
-
-  # ── ÉDITEUR DE CODE (CodeMirror) ──────────────────────────
-  # Fond plus sombre (quasi-noir) : primary-color #0D5D6D (caret focused) désormais
-  # visible (contraste ~5:1) ; syntax colors (tous clairs) inchangés et lisibles.
-  code-editor-background-color: "#061012"
-  codemirror-keyword: "#7FD9FF"
-  codemirror-string: "#A8E6B0"
-  codemirror-property: "#E8F4F5"
-  codemirror-number: "#FFD080"
-  codemirror-comment: "#90C5CB"
-  codemirror-atom: "#C5B8E8"
-  codemirror-meta: "#B0C4CC"
-  codemirror-tag: "#7FD9FF"
-  # ── MENU HOVER (paper-item legacy + mdc-ripple) ──────────
-  paper-item-focused-before-background: "#00B2C6"
-  paper-item-focused-before-opacity: "0.25"
-  mdc-ripple-color: "#00B2C6"
-  # ── ÉTATS INTERACTIFS (hover / focus / pressed) — CHROME GLOBAL ──────────
-  # Mêmes mécanismes que la variante dark (mdc-ripple legacy + ha-ripple MD3).
-  # state-layer teal #00B2C6 visible sur fond clair ; pressed > hover.
-  mdc-ripple-hover-opacity: "0.08"
-  mdc-ripple-focus-opacity: "0.12"
-  mdc-ripple-press-opacity: "0.16"
-  ha-ripple-color: "#00B2C6"
-  ha-ripple-hover-opacity: "0.08"
-  ha-ripple-pressed-opacity: "0.16"
-  # ── ONGLETS (tabs, label inactif) ───────────────────────────
-  # Même fix que dark: ha-tab-active-text-color=#FFFFFF
-  # #FFFFFF sur header bg #0D5D6D = 8.5:1 WCAG AAA ✓ (sans fix: primary-color=#0D5D6D = invisible)
-  ha-tab-active-text-color: "#FFFFFF"
-  mdc-tab-text-label-color-default: "#FFFFFF"    # legacy mwc-tab (gardé inoffensif)
-  # ── DROPDOWN / MENU DÉROULANT ──────────────────────────────
-  # Mêmes sources que variante dark.
-  ha-border-radius-md: "12px"                    # aligne dropdown sur ha-card-border-radius
-  ha-color-border-neutral-quiet: "#0A4D5C"       # = ha-card-border-color light
-  # ── ICÔNES MENU DÉROULANT + NEUTRAL FILLS ──────────────────
-  # Source ha-dropdown-item.ts: #icon::slotted(*){color:var(--ha-color-on-neutral-normal)}
-  # Source ha-svg-icon.ts: fill:var(--icon-primary-color,currentColor) → currentColor=on-neutral-normal
-  # SOLUTION SCOPÉE (double-var): poser on-neutral-normal=#E8F4F5 MAIS aussi darkener le
-  # fill-neutral-normal-resting (#E6E6E6→#162426) → chips still readable (17:1) sur fond sombre.
-  # Source chips: ha-automation-row-event-chip.ts [variant=neutral] bg=fill-neutral-normal-resting.
-  ha-color-on-neutral-normal: "#E8F4F5"          # icônes dropdown = near-white (9.1:1 sur #0D5D6D)
-  # Neutral chip bg rendu sombre pour garantir lisibilité avec on-neutral-normal=#E8F4F5:
-  ha-color-fill-neutral-normal-resting: "#162426" # dark teal; #E8F4F5 dessus = 17:1 WCAG AAA
-  ha-color-fill-neutral-normal-hover: "#1A2E33"  # légèrement plus clair au hover
-  ha-color-fill-neutral-normal-active: "#162426"  # = resting
-  # ── DIALOGUES MDC + HEADING + MARKDOWN ──────────────────────
-  # Source: mdc-dialog stylesheet (ha-dialog) + ha-heading-card.ts + markdown-element.ts.
-  # Sur fond clair dialogue (#fff~#EDF4F5) → encres foncées WCAG AA+.
-  mdc-dialog-content-ink-color: "#1A3A40"     # corps dialogue ~9:1 (WCAG AAA)
-  mdc-dialog-heading-ink-color: "#0D2E33"     # titres dialogue ~11:1 (WCAG AAA)
-  ha-heading-card-title-color: "#0D2E33"      # heading style=title sur fond pâle ~11:1 (AAA)
-  # Source: hui-heading-card.ts .content.subtitle{color:var(--ha-heading-card-subtitle-color,secondary-text-color)}
-  # secondary-text-color=#C8E8EC (invisible sur #EDF4F5) → foncer explicitement.
-  # v0.3.14: #2C5F67→#0A4D5C (8.5:1 WCAG AAA vs #EDF4F5) — couvre VUE+SECTION (var partagée).
-  # Cascade: themes-mixin.ts applique sur document.documentElement → cascade jusqu'hui-view-header.
-  ha-heading-card-subtitle-color: "#0A4D5C"   # heading style=subtitle sur fond pâle ~8.5:1 (WCAG AAA)
-  markdown-text-color: "#1A3A40"              # texte markdown sur fond clair
-  # ── DIALOGUE RÉPARATIONS — CODE BLOCKS + TITRE (v0.3.16) ────
-  # Source: ha-markdown.ts L99-101: background=var(--markdown-code-background-color,none) +
-  #   color=var(--markdown-code-text-color,inherit). Valeurs par défaut → fond blanc (browser)
-  #   + texte hérité primary-text-color=#E8F4F5 (near-white) = invisible (bug 2a).
-  # Fix: fond sombre distinct + texte clair → 10.8:1 WCAG AAA.
-  markdown-code-background-color: "#1A3A40"   # fond code lisible (10.8:1 avec text #E8F4F5)
-  markdown-code-text-color: "#E8F4F5"         # texte code clair (near-white 10.8:1 sur #1A3A40)
-  # Source: ha-dialog-header.ts L73: height=var(--ha-dialog-header-title-height,...) fixe.
-  # Bug 2b: titre long → dépasse container → chevauche sous-titre (STRUCTUREL).
-  # Workaround: auto = hauteur dynamique. NE touche PAS la couleur (structurel, pas couleur).
-  ha-dialog-header-title-height: "auto"       # titre dialogue wraps sans overflow (structurel fix)
-  # ── CARD_MOD — MUSHROOM TITLE CARD (surface #1 fond clair) ──
-  # Spec Hestia: 27 mushroom-title-card utilisent var(--primary-text-color)=#E8F4F5
-  # → near-white invisible sur lovelace-background=#EDF4F5.
-  # Stratégie: card-mod-card-yaml (appliqué À CHAQUE CARD) + sélecteur mushroom-title-card$
-  # → pierce INTO le shadow-root de la card ciblée. Ne traverse QU'UNE frontière shadow,
-  # qui est exactement celle entre hui-card et mushroom-title-card (correct).
-  # Scope: mushroom-title-card$ ne matche PAS mushroom-template-card/light/etc. → teal préservé.
-  card-mod-theme: allanic_nature_light
-  # ── VIEW HEADER (titre/sous-titre de vue Lovelace) ──────────
-  # CAS B définitif (pixel-mesuré Hestia task_1052, v0.3.14 PATH A = 1.16:1 FAIL).
-  # hui-view-header est hors scope des heading-cards de contenu → natif impossible sur cette surface.
-  # v0.3.13 avait ce sélecteur (#2C5F67) ; v0.3.14 PATH A l'a retiré → régression confirmée.
-  # v0.3.15 : RESTAURE hui-view-header$ :host avec #08363A (11.8:1 AAA sur fond clair #EDF4F5).
-  card-mod-view-yaml: |
-    hui-view-header$: |
-      :host {
-        --primary-text-color: #0D2E33 !important;
-        --secondary-text-color: #08363A !important;
-        --ha-heading-card-title-color: #0D2E33 !important;
-        --ha-heading-card-subtitle-color: #08363A !important;
-      }
-    .: |
-      .imported-card-header .title { color: #0D2E33 !important; }
-      .imported-card-header .subtitle { color: #08363A !important; }
-    # Mushroom title-card: RÉSOLU VIA native theme vars mush-title-color/mush-subtitle-color (v0.3.25)
-    # card-mod ne peut PAS atteindre mushroom shadow (4 échecs RC-1) → fix pur theme vars (plus haut)
-  # ── GROUP HEADERS + HA-TIP TEXT (ha-data-table + ha-tip) ──────────────
-  # Source: ha-data-table.ts .group-header{background-color:var(--primary-background-color)}
-  #   → fond de groupe = fond de page #EDF4F5 = invisible; texte hérité (#E8F4F5 near-white).
-  # Source: ha-tip.ts .text{color:var(--secondary-text-color)} = #C8E8EC near-white.
-  # card-mod-root-yaml cible ces éléments dans toute l'app (traversal depuis home-assistant).
-  # ha-config-dashboard$ : scope admin settings → ha-tip community footer (bug1 v0.3.16)
-  # ha-tip$ : scope dashboard inline tips (vecteur alternatif). Couleur durcies→#0A4D5C (8.5:1 AAA).
-  card-mod-root-yaml: |
-    ha-data-table$: |
-      .group-header {
-        background-color: transparent !important;
-        color: #0D2E33 !important;
-      }
-    ha-tip$: |
-      .text { color: #0A4D5C !important; }
-      .prefix { color: #0D2E33 !important; }
-    # ha-markdown liens invisibles: même fix que dark — dialogues foncés même en thème clair
-    ha-markdown$: |
-      a { color: #4FD0E0 !important; }
-    ha-sidebar$: |
-      ha-list-item-button {
-        transition: background-color 180ms ease, color 180ms ease, transform 180ms ease !important;
-      }
-      ha-list-item-button:active { transform: scale(0.98); }
-    # ha-panel-config$ :host vars, cascade admin panel (v0.3.24). Root-level FONCTIONNE.
-    # PROTECTION: ha-card reset = triggers/conditions/actions fond fonce = texte clair (invariant).
-    ha-panel-config$: |
-      :host {
-        --primary-text-color: #0D2E33 !important;
-        --secondary-text-color: #0A4D5C !important;
-      }
-      ha-card {
-        --primary-text-color: #E8F4F5 !important;
-        --secondary-text-color: #C8E8EC !important;
-      }
-    # ha-automation-editor$ : ha-card reset, fond fonce = texte clair (v0.3.25). Root-level FONCTIONNE.
-    # PROTECTION invariant: ligne 'A 7:00' DOIT rester claire, pas de dark-on-dark.
-    ha-automation-editor$:
-      .: |
-        ha-card {
-          --primary-text-color: #E8F4F5 !important;
-          --secondary-text-color: #C8E8EC !important;
-        }
-    # v0.3.29 FIX-A+B: chaine shadow CORRIGEE — hops parasites supprimes.
-    # v0.3.28 FAIL: ha-drawer/ha-panel-config$/ha-config-automation$ ne creent PAS de shadowRoot
-    #   (enfants en light-DOM dans le shadow home-assistant-main) => pierce $ casse => en-tetes pales.
-    # ANCETRES SHADOW REELS (js_eval mesure): manual-automation-editor > ha-automation-editor > home-assistant-main
-    # FIX-A: chaine directe home-assistant-main$>ha-automation-editor$>manual-automation-editor$
-    # FIX-B: ha-config-dashboard$ directement sous home-assistant-main$ (hypothese best-effort, Hestia verifie)
-    home-assistant-main$:
-      .: |
-        ha-icon-button, ha-button, mwc-button, mwc-icon-button,
-        mwc-list-item, ha-list-item, ha-md-list-item {
-          transition: background-color 180ms ease, color 180ms ease, transform 180ms ease !important;
-        }
-        ha-icon-button:active, mwc-icon-button:active { transform: scale(0.94); }
-        mwc-button:active, ha-button:active { transform: scale(0.98); }
-        mwc-list-item:active, ha-list-item:active, ha-md-list-item:active { transform: scale(0.99); }
-      ha-automation-editor$:
-        manual-automation-editor$: |
-          .header .name { color: #0D2E33 !important; }
-          .header .small { color: #0A4D5C !important; }
-      ha-config-dashboard$: |
-        ha-tip { color: #0A4D5C !important; }
-        ha-tip a { color: #0A4D5C !important; }
-  # ── CARDS HEADING (sections + view header) + MUSHROOM TITLE ─────────────
-  # Source: hui-heading-card.ts .content{color:var(--ha-heading-card-title-color,...)}
-  #                              .content.subtitle{color:var(--ha-heading-card-subtitle-color,...)}
-  # card-mod-card-yaml: pierces shadow-root de chaque card matching le sélecteur.
-  # hui-heading-card$ couvre TOUTES les heading cards (sections + view header) sur fond clair.
-  # Scope: hui-heading-card$ ne matche PAS mushroom-template/light → teal préservé.
-  # .content.subtitle : #2C5F67→#0A4D5C (cohérent avec ha-heading-card-subtitle-color natif, 8.5:1).
-  card-mod-card-yaml: |
-    hui-heading-card$: |
-      .content { color: #0D2E33 !important; }
-      .content.subtitle { color: #0A4D5C !important; }
-  # ── MUSHROOM / TOKENS RGB (override palette Allanic) ───────
-  # Variant light : active states en teal foncé (#0D5D6D) pour contraste
-  # sur fond clair ; teal cyan vif réservé aux accents.
-  rgb-teal: "0, 178, 198"               # #00B2C6 cyan Allanic
-  rgb-primary-color: "13, 93, 109"
-  rgb-accent-color: "16, 112, 132"
-  rgb-state-light-active: "13, 93, 109"
-  rgb-state-vacuum-cleaning: "13, 93, 109"
-  mush-rgb-teal: "0, 178, 198"
-  mush-rgb-primary: "13, 93, 109"
+      # ── CARD-MOD CIBLÉ : ha-tip des Réglages ──
+      # NOTE 2026-06-11 : ce bloc est probablement INERTE avec card-mod 4.2.1 (le type
+      # « root » s'injecte sur hui-root, absent de la page Réglages). Conservé tel quel
+      # faute de remplacement validé ; les correctifs data-table sont passés en module JS
+      # (www/allanic-data-table.js). À migrer aussi vers le module si besoin.
+      card-mod-root-yaml: |
+        ha-config-dashboard$: |
+          ha-tip {
+            --secondary-text-color: #0A4D5C !important;
+            --primary-text-color: #0D2E33 !important;
+          }
+        home-assistant-main$:
+          ha-config-dashboard$: |
+            ha-tip {
+              --secondary-text-color: #0A4D5C !important;
+              --primary-text-color: #0D2E33 !important;
+            }
